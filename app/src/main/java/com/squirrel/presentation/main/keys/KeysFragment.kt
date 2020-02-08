@@ -126,12 +126,10 @@ class KeysFragment : Fragment() {
 	inner class KeyPagerAdapter(
 		fm: FragmentManager,
 		data: MutableList<Key>
-	) :
-		FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+	) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
 		private var keys = data
 		val registeredFragments = mutableListOf<KeyFragment>()
-
 
 		init {
 			keys.forEachIndexed { i, key ->

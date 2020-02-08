@@ -111,7 +111,8 @@ class AccountsFragment : Fragment() {
 		}
 
 		actionButton.setOnClickListener {
-			NavHostFragment.findNavController(this).navigate(R.id.accountFragment)
+			val action = AccountsFragmentDirections.openAccount(dirIndex, -1)
+			NavHostFragment.findNavController(this@AccountsFragment).navigate(action)
 		}
 
 		model.data.observe(this, Observer {
