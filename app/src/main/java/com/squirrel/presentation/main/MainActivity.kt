@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 			Gson().fromJson(json, object : TypeToken<ArrayList<Directory?>?>() {}.type)
 
 		model?.data?.observe(this, Observer {
-			model?.saveKeys()
+			model?.saveData()
 		})
 	}
 

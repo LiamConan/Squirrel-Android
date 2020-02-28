@@ -19,8 +19,8 @@ class DirectoryAdapter(private var dirs: MutableList<Directory>) :
 	private var itemClickListener: (Int) -> Unit = {}
 	private var contextMenuItemClickListener: (Int, Int, Directory) -> Unit = { _, _, _ -> }
 	private var dragListener: (RecyclerView.ViewHolder) -> Unit = {}
-	private var onItemMoveListener: (Int, Int) -> MutableList<Directory> =
-		{ _, _ -> mutableListOf() }
+	private var onItemMoveListener: (Int, Int) -> Unit =
+		{ _, _ -> }
 	private var onItemDismissListener: (Int) -> Unit = { }
 
 	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -93,7 +93,7 @@ class DirectoryAdapter(private var dirs: MutableList<Directory>) :
 		dragListener = l
 	}
 
-	fun setOnItemMoveListener(l: (Int, Int) -> MutableList<Directory>) {
+	fun setOnItemMoveListener(l: (Int, Int) -> Unit) {
 		onItemMoveListener = l
 	}
 

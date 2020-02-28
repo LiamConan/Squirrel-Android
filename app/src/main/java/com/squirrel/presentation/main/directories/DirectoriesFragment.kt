@@ -65,7 +65,7 @@ class DirectoriesFragment : Fragment() {
 				touchHelper?.startDrag(it)
 			}
 			setOnItemMoveListener { from, to ->
-				model?.swapDirectories(from, to) ?: mutableListOf()
+				model?.swapDirectories(from, to)
 			}
 			setOnItemDismissListener { i ->
 				model?.data?.value?.get(i)?.let { dir ->
