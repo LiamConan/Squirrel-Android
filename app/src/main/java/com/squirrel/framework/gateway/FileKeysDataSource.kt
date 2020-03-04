@@ -7,7 +7,7 @@ import com.squirrel.core.data.KeysDataSource
 import com.squirrel.core.domain.Directory
 import com.squirrel.framework.CryptUtil
 import com.squirrel.framework.Squirrel
-import com.squirrel.framework.gateway.preferences.gson.DataEntity
+import com.squirrel.framework.gateway.file.gson.DataEntity
 import java.io.*
 
 class FileKeysDataSource(private val context: Context) : KeysDataSource {

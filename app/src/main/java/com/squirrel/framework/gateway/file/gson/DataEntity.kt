@@ -1,4 +1,4 @@
-package com.squirrel.framework.gateway.preferences.gson
+package com.squirrel.framework.gateway.file.gson
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName

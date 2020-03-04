@@ -8,7 +8,7 @@ import com.squirrel.core.domain.Directory
 import com.squirrel.core.domain.Key
 import com.squirrel.core.usecases.keys.*
 import com.squirrel.framework.KeysUseCases
-import com.squirrel.framework.gateway.preferences.gson.DataEntity
+import com.squirrel.framework.gateway.file.gson.DataEntity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.junit.Assert

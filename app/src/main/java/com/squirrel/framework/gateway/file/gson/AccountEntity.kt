@@ -1,4 +1,4 @@
-package com.squirrel.framework.gateway.preferences.gson
+package com.squirrel.framework.gateway.file.gson
 
 import com.google.gson.annotations.SerializedName
 import com.squirrel.core.domain.Account
