@@ -28,4 +28,5 @@ app/build/
 core/build/
 gradle/
 
+app/app.iml
 local.properties
