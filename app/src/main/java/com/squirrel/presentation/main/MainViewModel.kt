@@ -86,6 +86,7 @@ class MainViewModel : ViewModel() {
             accountIndex,
             account
         )
+        data.value = data.value
     }
 
     fun swapAccounts(directoryIndex: Int, first: Int, second: Int) {
