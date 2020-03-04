@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squirrel.R
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		supportActionBar?.setDisplayShowHomeEnabled(true)
 
-		model = ViewModelProviders.of(this).get(MainViewModel::class.java)
+		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
 		val json = intent.getStringExtra("json") ?: "{}"
 

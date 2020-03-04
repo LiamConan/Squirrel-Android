@@ -9,7 +9,7 @@ import android.os.CancellationSignal
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +41,7 @@ class DirectoriesFragment : Fragment() {
 		setHasOptionsMenu(true)
 
 		model = activity?.run {
-			ViewModelProviders.of(this).get(MainViewModel::class.java)
+			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
 		activity?.title = getString(R.string.app_name)
 

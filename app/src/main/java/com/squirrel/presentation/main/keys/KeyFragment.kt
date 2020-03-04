@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.gson.Gson
@@ -18,8 +18,8 @@ import com.squirrel.core.domain.Key
 import com.squirrel.databinding.FragmentKeyBinding
 import com.squirrel.framework.fragmentOf
 import com.squirrel.framework.getValue
-import com.squirrel.presentation.main.keys.KeysFragment.Companion.COPIED
 import com.squirrel.presentation.main.MainViewModel
+import com.squirrel.presentation.main.keys.KeysFragment.Companion.COPIED
 import kotlinx.android.synthetic.main.fragment_key.*
 
 class KeyFragment : Fragment() {
@@ -50,7 +50,7 @@ class KeyFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		model = activity?.run {
-			ViewModelProviders.of(this).get(MainViewModel::class.java)
+			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
 
 		val key = Gson().fromJson(arguments?.getString("item_key"), Key::class.java)

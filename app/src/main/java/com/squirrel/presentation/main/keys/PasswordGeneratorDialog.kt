@@ -8,7 +8,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.squirrel.R
 import com.squirrel.framework.PasswordUseCases
 import com.squirrel.framework.Squirrel
@@ -38,7 +38,7 @@ class PasswordGeneratorDialog : DialogFragment() {
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val view = View.inflate(context, R.layout.dialog_password_generator, null)
 
-		model = ViewModelProviders.of(this).get(MainViewModel::class.java)
+		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
 		editTextCaracNumber = view.findViewById(R.id.editTextCaracNumber)
 		checkBoxLowercase = view.findViewById(R.id.checkBoxLowercase)

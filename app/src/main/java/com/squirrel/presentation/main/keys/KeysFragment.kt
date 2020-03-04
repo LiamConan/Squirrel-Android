@@ -5,7 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -38,7 +38,7 @@ class KeysFragment : Fragment() {
 		setHasOptionsMenu(true)
 
 		model = activity?.run {
-			ViewModelProviders.of(this).get(MainViewModel::class.java)
+			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
 		val args: KeysFragmentArgs by navArgs()
 		dirIndex = args.directoryPosition
