@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "577106527316",
+    "firebase_url": "https://squirrel-3cb8c.firebaseio.com",
+    "project_id": "squirrel-3cb8c",
+    "storage_bucket": "squirrel-3cb8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577106527316:android:f3218dc2617d09f518d9c1",
+        "android_client_info": {
+          "package_name": "com.squirrel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577106527316-e9sbgrtpnjj62ftlsh6v5qu3afp628h0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6mIDDVvqQ0zHMT70YxLMGR703JLqJUew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577106527316-e9sbgrtpnjj62ftlsh6v5qu3afp628h0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,10 +17,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.squirrel.R
 import com.squirrel.framework.Squirrel
@@ -158,6 +160,10 @@ class LoginFragment : Fragment() {
 					object : BiometricPrompt.AuthenticationCallback() {
 						override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
 							super.onAuthenticationSucceeded(result)
+							Squirrel.analytics.logEvent(
+								FirebaseAnalytics.Event.LOGIN,
+								bundleOf(FirebaseAnalytics.Param.CONTENT_TYPE to "biometrics")
+							)
 							model?.getRegisteredPassword(
 								model?.selectedPath?.value ?: ""
 							) { password ->

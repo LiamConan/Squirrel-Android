@@ -2,11 +2,13 @@ package com.squirrel.framework
 
 import android.app.Application
 import android.net.Uri
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class Squirrel : Application() {
 
 	companion object {
 		lateinit var dagger: Component
+		lateinit var analytics: FirebaseAnalytics
 	}
 
 	var uri: Uri? = null
@@ -15,6 +17,7 @@ class Squirrel : Application() {
 	override fun onCreate() {
 		super.onCreate()
 
+		analytics = FirebaseAnalytics.getInstance(this)
 		dagger = DaggerComponent.builder()
 			.useCasesModule(UseCasesModule(this))
 			.build()

@@ -42,7 +42,7 @@ class FileKeysDataSource(private val context: Context) : KeysDataSource {
 		return null
 	}
 
-	override suspend fun write(directories: List<Directory>) {
+	override suspend fun write(data: List<Directory>) {
 		val squirrel = context.applicationContext as Squirrel
 		val uri = squirrel.uri
 		val password = squirrel.password
@@ -50,8 +50,8 @@ class FileKeysDataSource(private val context: Context) : KeysDataSource {
 			try {
 				context.contentResolver.openFileDescriptor(uri, "rwt")?.use {
 					FileOutputStream(it.fileDescriptor).use { fos ->
-						val data = DataEntity.build(directories)
-						CryptUtil.encrypt(Gson().toJson(data), password ?: "")?.let { content ->
+						val entity = DataEntity.build(data)
+						CryptUtil.encrypt(Gson().toJson(entity), password ?: "")?.let { content ->
 							fos.write(content.toByteArray())
 						}
 					}
