@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -17,11 +18,13 @@ class MainActivity : AppCompatActivity() {
 
 	private var model: MainViewModel? = null
 	var fab: FloatingActionButton? = null
+	var appBar: BottomAppBar? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-		setSupportActionBar(findViewById(R.id.bottomAppBar))
+		setSupportActionBar(bottomAppBar)
+		appBar = bottomAppBar
 
 		model = ViewModelProvider(this).get(MainViewModel::class.java)
 		fab = floatingActionButton

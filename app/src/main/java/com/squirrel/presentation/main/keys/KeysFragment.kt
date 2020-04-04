@@ -39,6 +39,7 @@ class KeysFragment : Fragment() {
 		setHasOptionsMenu(true)
 
 		(activity as MainActivity).fab?.hide()
+		(activity as MainActivity).appBar?.performShow()
 
 		model = activity?.run {
 			ViewModelProvider(this).get(MainViewModel::class.java)
