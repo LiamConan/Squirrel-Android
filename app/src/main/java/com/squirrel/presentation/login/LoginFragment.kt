@@ -31,15 +31,16 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 	companion object {
-		const val PERMISSION_STORAGE = 1
-		const val OPEN_DOCUMENTE_CODE = 2
-		const val CREATE_DOCUMENT_CODE = 3
+		const val PERMISSION_STORAGE_CREATE = 1
+		const val PERMISSION_STORAGE_OPEN = 2
+		const val OPEN_DOCUMENTE_CODE = 1
+		const val CREATE_DOCUMENT_CODE = 2
 	}
 
 	private var model: LoginViewModel? = null
 
 	override fun onCreateView(i: LayoutInflater, c: ViewGroup?, b: Bundle?): View? =
-		i.inflate(R.layout.fragment_login, c, false)
+		i.inflate(R.layout.fragment_login, container, false)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -71,20 +72,22 @@ class LoginFragment : Fragment() {
 
 		activity?.run {
 			model?.selectedPath?.observe(this, Observer {
-				editTextFilePath.setText(model?.selectedPath?.value)
-
-				model?.hasRegisteredPassword(model?.selectedPath?.value ?: "") {
-					if (it) {
-						showBiometricPrompt()
+				editTextFilePath.setText(it)
+				model?.hasRegisteredPassword(it) { passwordSaved ->
+					if (passwordSaved) {
 						imageButtonFingerprint.visibility = View.VISIBLE
-					} else imageButtonFingerprint.visibility = View.GONE
+						showBiometricPrompt()
+					} else
+						imageButtonFingerprint.visibility = View.INVISIBLE
 				}
 			})
 		}
 	}
 
 	override fun onRequestPermissionsResult(code: Int, perms: Array<String>, results: IntArray) {
-		if (code == PERMISSION_STORAGE)
+		if (code == PERMISSION_STORAGE_CREATE)
+			createFile()
+		else if (code == PERMISSION_STORAGE_OPEN)
 			openFile()
 	}
 
@@ -96,11 +99,9 @@ class LoginFragment : Fragment() {
 		if (path != null && resultCode == Activity.RESULT_OK) {
 			when (requestCode) {
 				OPEN_DOCUMENTE_CODE -> {
-					editTextFilePath.setText(path)
 					model?.selectedPath?.value = resultData.data.toString()
 				}
 				CREATE_DOCUMENT_CODE -> {
-					editTextFilePath.setText(path)
 					model?.selectedPath?.value = resultData.data.toString()
 					model?.newFile = true
 					buttonLogin.setText(R.string.create_label)
@@ -123,7 +124,7 @@ class LoginFragment : Fragment() {
 		} else
 			requestPermissions(
 				arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-				PERMISSION_STORAGE
+				PERMISSION_STORAGE_OPEN
 			)
 	}
 
@@ -141,7 +142,7 @@ class LoginFragment : Fragment() {
 		} else
 			requestPermissions(
 				arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-				PERMISSION_STORAGE
+				PERMISSION_STORAGE_CREATE
 			)
 	}
 
@@ -177,23 +178,23 @@ class LoginFragment : Fragment() {
 	private fun unlock(password: String) {
 		model?.loadData(model?.selectedPath?.value, password, {
 			editTextPassword.setText("")
-			persistData(password)
+			persistData()
 
 			startActivity(
 				Intent(activity, MainActivity::class.java)
 					.putExtra("json", Gson().toJson(it))
+					.putExtra("uri", model?.selectedPath?.value)
+					.putExtra("password", password)
 			)
 		}, {
 			Snackbar.make(container, R.string.bad_password, Snackbar.LENGTH_SHORT).show()
 		})
 	}
 
-	private fun persistData(password: String) {
+	private fun persistData() {
 		val uri = Uri.parse(model?.selectedPath?.value)
 		context?.contentResolver?.takePersistableUriPermission(
 			uri, FLAG_GRANT_READ_URI_PERMISSION or FLAG_GRANT_WRITE_URI_PERMISSION
 		)
-		(activity?.application as Squirrel)
-			.setUriAndPassword(uri, password)
 	}
 }

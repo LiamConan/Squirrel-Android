@@ -28,7 +28,7 @@ class KeyFragment : Fragment() {
 		fun getInstance(key: Key, dirIndex: Int, accountIndex: Int): KeyFragment =
 			fragmentOf(
 				bundleOf(
-					"item_key" to Gson().toJson(key),
+					"item_account" to Gson().toJson(key),
 					"dir_index" to dirIndex,
 					"account_index" to accountIndex
 				)
@@ -53,7 +53,7 @@ class KeyFragment : Fragment() {
 			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
 
-		val key = Gson().fromJson(arguments?.getString("item_key"), Key::class.java)
+		val key = Gson().fromJson(arguments?.getString("item_account"), Key::class.java)
 		binding?.key = key
 		clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -127,7 +127,7 @@ class KeyFragment : Fragment() {
 		}
 	}
 
-	fun getSubkeyFromUI() = Key(
+	fun getKeyFromUI() = Key(
 		editTextUsername.getValue(),
 		editTextEmail.getValue(),
 		editTextPassword.getValue(),

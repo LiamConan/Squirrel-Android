@@ -34,7 +34,7 @@ class AccountAdapter(private var accountEntities: MutableList<Account>) :
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		return ViewHolder(
 			LayoutInflater.from(parent.context).inflate(
-				R.layout.item_key,
+				R.layout.item_account,
 				parent,
 				false
 			)

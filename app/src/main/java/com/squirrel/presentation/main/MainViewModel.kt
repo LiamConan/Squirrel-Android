@@ -1,5 +1,6 @@
 package com.squirrel.presentation.main
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.squirrel.core.domain.Account
@@ -18,6 +19,9 @@ class MainViewModel : ViewModel() {
     @Inject
     lateinit var passwordUseCases: PasswordUseCases
 
+    var uri: Uri? = null
+    var password: String = ""
+
     var data: MutableLiveData<MutableList<Directory>> = MutableLiveData()
     var currentKey: Int = -1
     private var onSubkeyDeleted: () -> Unit = {}
@@ -30,8 +34,13 @@ class MainViewModel : ViewModel() {
     fun saveData() {
         GlobalScope.launch {
             val list = data.value?.toList() ?: listOf()
-            keysUseCases.saveKeys(list)
+            keysUseCases.saveKeys(list, uri.toString(), password)
         }
+    }
+
+    fun changePassword(newPassword: String) {
+        password = newPassword
+        saveData()
     }
 
     fun checkPasswordExists(key: String, block: (Boolean) -> Unit) {
@@ -117,6 +126,7 @@ class MainViewModel : ViewModel() {
 
     fun addDirectory(title: String) {
         keysUseCases.addDirectory(data.value ?: mutableListOf(), Directory(title))
+        data.value = data.value
     }
 
     fun deleteDirectory(i: Int) {

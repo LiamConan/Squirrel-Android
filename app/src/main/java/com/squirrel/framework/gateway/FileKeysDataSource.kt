@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import com.squirrel.core.data.KeysDataSource
 import com.squirrel.core.domain.Directory
 import com.squirrel.framework.CryptUtil
-import com.squirrel.framework.Squirrel
 import com.squirrel.framework.gateway.file.gson.DataEntity
 import java.io.*
 
@@ -42,25 +41,20 @@ class FileKeysDataSource(private val context: Context) : KeysDataSource {
 		return null
 	}
 
-	override suspend fun write(data: List<Directory>) {
-		val squirrel = context.applicationContext as Squirrel
-		val uri = squirrel.uri
-		val password = squirrel.password
-		uri?.let {
-			try {
-				context.contentResolver.openFileDescriptor(uri, "rwt")?.use {
-					FileOutputStream(it.fileDescriptor).use { fos ->
-						val entity = DataEntity.build(data)
-						CryptUtil.encrypt(Gson().toJson(entity), password ?: "")?.let { content ->
-							fos.write(content.toByteArray())
-						}
+	override suspend fun write(data: List<Directory>, uri: String, password: String) {
+		try {
+			context.contentResolver.openFileDescriptor(Uri.parse(uri), "rwt")?.use {
+				FileOutputStream(it.fileDescriptor).use { fos ->
+					val entity = DataEntity.build(data)
+					CryptUtil.encrypt(Gson().toJson(entity), password)?.let { content ->
+						fos.write(content.toByteArray())
 					}
 				}
-			} catch (e: FileNotFoundException) {
-				e.printStackTrace()
-			} catch (e: IOException) {
-				e.printStackTrace()
 			}
+		} catch (e: FileNotFoundException) {
+			e.printStackTrace()
+		} catch (e: IOException) {
+			e.printStackTrace()
 		}
 	}
 }

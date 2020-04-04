@@ -22,7 +22,8 @@ class LoginViewModel : ViewModel() {
     lateinit var lastFileUseCases: LastFileUseCases
 
     var newFile = false
-    var selectedPath = MutableLiveData<String>("")
+    var selectedPath = MutableLiveData("")
+    var isPasswordSaved = false
 
     init {
         Squirrel.dagger.inject(this)
@@ -31,8 +32,8 @@ class LoginViewModel : ViewModel() {
 
     fun hasRegisteredPassword(path: String, block: (Boolean) -> Unit) {
         GlobalScope.launch(context = Dispatchers.Main) {
-            val password = passwordUseCases.checkPasswordExists(path)
-            block(password)
+            val isPasswordSaved = passwordUseCases.checkPasswordExists(path)
+            block(isPasswordSaved)
         }
     }
 
@@ -55,14 +56,19 @@ class LoginViewModel : ViewModel() {
         fail: () -> Unit
     ) {
         if (path != null && password != null) {
-            GlobalScope.launch {
-                try {
-                    keysUseCases.getKeys(path, password)?.toMutableList()?.let {
-                        lastFileUseCases.saveLastFilePath(path)
-                        success(it)
+            if (newFile) {
+                newFile = false
+                success(mutableListOf())
+            } else {
+                GlobalScope.launch {
+                    try {
+                        keysUseCases.getKeys(path, password)?.toMutableList()?.let {
+                            lastFileUseCases.saveLastFilePath(path)
+                            success(it)
+                        }
+                    } catch (e: Exception) {
+                        fail()
                     }
-                } catch (e: Exception) {
-                    fail()
                 }
             }
         }

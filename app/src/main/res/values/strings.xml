@@ -35,6 +35,12 @@
 	<string name="confirm_directory_deleting">Êtes-vous sûr de vouloir supprimer ce dossier et tout ce qu\'il contient ?\nIl n\'y aura pas de retour en arrière possible.</string>
     <string name="newdir_name">Nom</string>
 	<string name="biometric_menu">Reconnaissance biométrique</string>
+	<string name="no_fingerprint_detected">Aucune empreinte digitale enregistrée sur l\'appareil</string>
+	<string name="actual_password">Mot de passe actuel</string>
+	<string name="new_password">Nouveau mot de passe</string>
+	<string name="new_password_confirmation">Confirmation</string>
+	<string name="wrong_password">Mot de passe erroné</string>
+	<string name="password_does_not_match">Le mot de passe ne correspond pas</string>
 
 	<!-- Keys -->
 

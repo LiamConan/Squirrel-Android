@@ -82,7 +82,7 @@ class KeysFragment : Fragment() {
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		super.onCreateOptionsMenu(menu, inflater)
-		inflater.inflate(R.menu.showkey, menu)
+		inflater.inflate(R.menu.keys, menu)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -91,7 +91,7 @@ class KeysFragment : Fragment() {
 				if (editTextTitle.text?.isNotEmpty() == true && adapter.fragmentsFieldsFilled()) {
 					val array = mutableListOf<Key>()
 
-					adapter.registeredFragments.forEach { array.add(it.getSubkeyFromUI()) }
+					adapter.registeredFragments.forEach { array.add(it.getKeyFromUI()) }
 					val account = Account(
 						editTextTitle.getValue(),
 						now(),

@@ -11,8 +11,8 @@ import com.squirrel.R
 
 class SplashFragment : Fragment() {
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-			inflater.inflate(R.layout.fragment_splash, container, false)
+	override fun onCreateView(i: LayoutInflater, c: ViewGroup?, b: Bundle?): View? =
+			i.inflate(R.layout.fragment_splash, c, false)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)

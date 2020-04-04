@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_fingerprint"
         android:title="@string/biometric_menu"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/changePassword"
+        android:icon="@drawable/ic_lock"
+        android:title="@string/biometric_menu"
+        app:showAsAction="always" />
 </menu>

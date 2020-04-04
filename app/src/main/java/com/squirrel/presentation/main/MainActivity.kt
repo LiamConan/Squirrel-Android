@@ -1,5 +1,6 @@
 package com.squirrel.presentation.main
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
 		val json = intent.getStringExtra("json") ?: "{}"
+		model?.uri = Uri.parse(intent.getStringExtra("uri"))
+		model?.password = intent.getStringExtra("password") ?: ""
 
 		model?.data?.value =
 			Gson().fromJson(json, object : TypeToken<ArrayList<Directory?>?>() {}.type)

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import com.squirrel.presentation.main.keys.KeyFragment
@@ -25,6 +26,11 @@ fun fragmentOf(bundle: Bundle): KeyFragment {
 	val fragment = KeyFragment()
 	fragment.arguments = bundle
 	return fragment
+}
+
+fun Fragment.withArgs(bundle: Bundle): Fragment {
+	this.arguments = bundle
+	return this
 }
 
 fun EditText.getValue(): String = text.toString()
