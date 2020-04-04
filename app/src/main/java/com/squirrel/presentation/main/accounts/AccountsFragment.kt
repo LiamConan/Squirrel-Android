@@ -22,6 +22,7 @@ import com.squirrel.R
 import com.squirrel.R.string.key_deleted
 import com.squirrel.core.domain.Key
 import com.squirrel.presentation.ItemTouchHelperCallback
+import com.squirrel.presentation.main.MainActivity
 import com.squirrel.presentation.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_directory.*
 
@@ -41,6 +42,8 @@ class AccountsFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		(activity as MainActivity).fab?.show()
 
 		activity?.run {
 			model = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -110,7 +113,7 @@ class AccountsFragment : Fragment() {
 			adapter = viewAdapter
 		}
 
-		actionButton.setOnClickListener {
+		(activity as MainActivity).fab?.setOnClickListener {
 			val action = AccountsFragmentDirections.openAccount(dirIndex, -1)
 			NavHostFragment.findNavController(this@AccountsFragment).navigate(action)
 		}

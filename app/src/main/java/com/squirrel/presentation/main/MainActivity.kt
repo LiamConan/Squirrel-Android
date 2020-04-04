@@ -6,24 +6,25 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squirrel.R
 import com.squirrel.core.domain.Directory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
 	private var model: MainViewModel? = null
+	var fab: FloatingActionButton? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-
-		setSupportActionBar(findViewById(R.id.toolbar))
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		supportActionBar?.setDisplayShowHomeEnabled(true)
+		setSupportActionBar(findViewById(R.id.bottomAppBar))
 
 		model = ViewModelProvider(this).get(MainViewModel::class.java)
+		fab = floatingActionButton
 
 		val json = intent.getStringExtra("json") ?: "{}"
 		model?.uri = Uri.parse(intent.getStringExtra("uri"))

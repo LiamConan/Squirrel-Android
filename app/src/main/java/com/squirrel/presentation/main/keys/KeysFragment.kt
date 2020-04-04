@@ -14,6 +14,7 @@ import com.squirrel.R
 import com.squirrel.core.domain.Account
 import com.squirrel.core.domain.Key
 import com.squirrel.framework.getValue
+import com.squirrel.presentation.main.MainActivity
 import com.squirrel.presentation.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_account.*
 import java.util.*
@@ -36,6 +37,8 @@ class KeysFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		setHasOptionsMenu(true)
+
+		(activity as MainActivity).fab?.hide()
 
 		model = activity?.run {
 			ViewModelProvider(this).get(MainViewModel::class.java)

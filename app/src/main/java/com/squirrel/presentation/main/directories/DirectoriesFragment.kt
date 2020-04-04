@@ -20,6 +20,7 @@ import com.squirrel.R
 import com.squirrel.R.string.key_deleted
 import com.squirrel.framework.show
 import com.squirrel.presentation.ItemTouchHelperCallback
+import com.squirrel.presentation.main.MainActivity
 import com.squirrel.presentation.main.MainViewModel
 import com.squirrel.presentation.main.directories.dialog.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -93,7 +94,7 @@ class DirectoriesFragment : Fragment() {
 			adapter = viewAdapter
 		}
 
-		actionButton.setOnClickListener {
+		(activity as MainActivity).fab?.setOnClickListener {
 			openDialogNewDir()
 		}
 	}

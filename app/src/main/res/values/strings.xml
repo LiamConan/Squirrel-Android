@@ -17,6 +17,7 @@
     <string name="open">Ouvrir</string>
 	<string name="action_sign_in_short">Sign in</string>
 	<string name="password">Mot de passe</string>
+	<string name="new_file">Nouveau fichier</string>
 
 	<!-- Register -->
 	<string name="register_button">S\'enregistrer</string>
