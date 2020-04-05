@@ -34,6 +34,7 @@ class ChangePasswordDialog : DialogFragment() {
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val dialogView = View.inflate(context, R.layout.dialog_change_password, null)
+
 		val editTextActualPassword =
 			dialogView?.findViewById(R.id.editTextActualPassword) as EditText
 		val editTextNewPassword = dialogView.findViewById(R.id.editTextNewPassword) as EditText

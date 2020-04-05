@@ -1,7 +1,6 @@
 package com.layne.squirrel.presentation.main.directories.dialog
 
 import android.app.Dialog
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -30,16 +29,8 @@ class CancelBiometricsDialog : DialogFragment() {
 			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
 
-		val nightModeFlags = context?.let {
-			it.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-		}
-		val icon = when (nightModeFlags) {
-			Configuration.UI_MODE_NIGHT_YES -> R.drawable.ic_fingerprint_white
-			else                            -> R.drawable.ic_fingerprint_black
-		}
-
 		return AlertDialog.Builder(context ?: throw NullPointerException())
-			.setIcon(icon)
+			.setIcon(R.drawable.ic_fingerprint)
 			.setTitle(getText(R.string.biometric_title))
 			.setMessage(getString(R.string.cancel_biometrics_dialog_message))
 			.setPositiveButton(R.string.cancel_biometrics_dialog_yes) { _, _ ->

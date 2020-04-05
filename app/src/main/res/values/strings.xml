@@ -2,29 +2,19 @@
     <string name="app_name" translatable="false">Squirrel</string>
 
     <!-- Login -->
-    <string name="activity_login_label">Connexion</string>
-	<string name="open_label">Ouvrir</string>
+    <string name="open_label">Ouvrir</string>
 	<string name="create_label">Créer</string>
-	<string name="menu_add_file">Nouveau fichier</string>
-    <string name="formated_path">/%1$s/keys.sq</string>
-	<string name="bad_password">Mot de passe erroné</string>
+    <string name="bad_password">Mot de passe erroné</string>
 
 	<string name="prompt_path">Chemin vers le fichier</string>
-    <string name="button_search">&#8230;</string>
-    <string name="button_add">+</string>
-    <string name="corrupted_file">Fichier corrompu</string>
-    <string name="wrong_pass">Mot de passe erroné</string>
-    <string name="open">Ouvrir</string>
-	<string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
 	<string name="password">Mot de passe</string>
 	<string name="new_file">Nouveau fichier</string>
 
 	<!-- Register -->
-	<string name="register_button">S\'enregistrer</string>
 
     <!-- Dirs -->
 
-	<string name="menu_dirs_title">Dossiers</string>
     <string name="dir_rename">Renommer</string>
     <string name="dir_delete">Supprimer</string>
     <string name="reorder_dir">Réordonner</string>
@@ -32,8 +22,7 @@
     <string name="rename_dir">Renommer le dossier</string>
 	<string name="delete_dir">Supprimer le dossier</string>
 	<string name="yes">Oui</string>
-	<string name="no">Non</string>
-	<string name="confirm_directory_deleting">Êtes-vous sûr de vouloir supprimer ce dossier et tout ce qu\'il contient ?\nIl n\'y aura pas de retour en arrière possible.</string>
+    <string name="confirm_directory_deleting">Êtes-vous sûr de vouloir supprimer ce dossier et tout ce qu\'il contient ?\nIl n\'y aura pas de retour en arrière possible.</string>
     <string name="newdir_name">Nom</string>
 	<string name="biometric_menu">Reconnaissance biométrique</string>
 	<string name="no_fingerprint_detected">Aucune empreinte digitale enregistrée sur l\'appareil</string>
@@ -49,27 +38,21 @@
 	<string name="menu_showkeys_copy_email">Copier l\'email</string>
 	<string name="menu_showkeys_copy_password">Copier le mot de passe</string>
 	<string name="menu_showkeys_go_to_url">Aller à l\'url</string>
-	<string name="menu_showkeys_delete">Supprimer</string>
-	<string name="menu_showkeys_user">Utilisateur</string>
+    <string name="menu_showkeys_user">Utilisateur</string>
 	<string name="menu_showkeys_cancel">Annuler</string>
 	<string name="showkeys_copied">Copié !</string>
     <string name="no_valid_url">Pas d\'url valide trouvée</string>
     <string name="key_deleted">%1$s supprimé</string>
 
     <!-- Key -->
-	<string name="showkey_hint_title">Titre</string>
-    <string name="menu_showkey_title">Copier</string>
     <string name="menu_showkey_username">Identifiant</string>
 	<string name="menu_showkey_email">E-mail</string>
-    <string name="menu_showkey_password">Mot de passe</string>
     <string name="menu_showkey_url">Url</string>
     <string name="menu_showkey_note">Note</string>
-	<string name="menu_showkey_cancel">Annuler</string>
-	<string name="showkey_copied">Copié !</string>
+    <string name="showkey_copied">Copié !</string>
 
     <string name="menu_showkey_delete">Supprimer</string>
 	<string name="menu_showkey_save">Sauvegarder</string>
-    <string name="menu_showkey_copy">Copier</string>
     <string name="key_not_filled">Le titre, le nom d\'utilisateur et le mot de passe doivent être remplis pour chaque clé.</string>
 	<string name="malformed_url">URL non conforme</string>
 	<string name="empty_url">L\'URL est vide</string>
@@ -93,10 +76,8 @@
     <string name="cancel">Annuler</string>
 
 	<!-- Preferences -->
-	<string name="pref_file_uri">file_uri</string>
-	<string name="pref_file_path">file_path</string>
 
-	<!-- Biometrics -->
+    <!-- Biometrics -->
 	<string name="biometric_title">Authentification biométrique</string>
 	<string name="biometric_subtitle">Empreinte</string>
 	<string name="biometric_activation_description">Veuillez passer votre doigt sur le capteur biométrique de votre téléphone afin que Squirrel puisse mémoriser votre mot de passe et se déverrouiller au démarrage avec votre empreinte</string>
@@ -109,7 +90,6 @@
 
 	<!-- Content description -->
 	<string name="squirrel_logo">Logo de Squirrel</string>
-	<string name="fingerprint_image">Image d\'empreinte digitale</string>
 
 
 </resources>

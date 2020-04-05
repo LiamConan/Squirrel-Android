@@ -17,12 +17,6 @@
         <item name="android:textViewStyle">@style/TextViewStyle</item>
     </style>
 
-    <style name="PrimaryHeaderBar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
     <style name="PrimaryFlatButton" parent="Theme.AppCompat.Light">
         <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
@@ -31,12 +25,6 @@
 
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="EditTextAccentStyle" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="EditTextPrimaryStyle" parent="Theme.MaterialComponents.DayNight">
