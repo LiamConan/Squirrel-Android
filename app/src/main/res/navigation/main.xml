@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.squirrel.presentation.main.directories.DirectoriesFragment"
+        android:name="com.layne.squirrel.presentation.main.directories.DirectoriesFragment"
         android:label="DirectoryFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/directoryFragment"
-        android:name="com.squirrel.presentation.main.accounts.AccountsFragment"
+        android:name="com.layne.squirrel.presentation.main.accounts.AccountsFragment"
         android:label="KeyListFragment"
         tools:layout="@layout/fragment_directory">
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.squirrel.presentation.main.keys.KeysFragment"
+        android:name="com.layne.squirrel.presentation.main.keys.KeysFragment"
         android:label="KeyFragment"
         tools:layout="@layout/fragment_account">
         <argument

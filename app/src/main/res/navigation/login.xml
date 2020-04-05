@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.squirrel.presentation.login.SplashFragment"
+        android:name="com.layne.squirrel.presentation.login.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.squirrel.presentation.login.LoginFragment"
+        android:name="com.layne.squirrel.presentation.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login"/>
 </navigation>

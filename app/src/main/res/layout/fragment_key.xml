@@ -6,7 +6,7 @@
 
         <variable
             name="key"
-            type="com.squirrel.core.domain.Key" />
+            type="com.layne.squirrel.core.domain.Key" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
