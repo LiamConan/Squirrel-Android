@@ -122,7 +122,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_fingerprint"
+            android:src="@drawable/ic_fingerprint_white"
             android:tint="?android:attr/textColorPrimary" />
 
     </LinearLayout>

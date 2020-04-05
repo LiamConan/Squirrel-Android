@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/biometrics"
-        android:icon="@drawable/ic_fingerprint"
+        android:icon="@drawable/ic_fingerprint_white"
         android:title="@string/biometric_menu"
         app:showAsAction="always" />
     <item
