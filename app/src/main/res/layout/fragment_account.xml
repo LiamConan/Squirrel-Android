@@ -12,8 +12,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/darkGrey"
-        android:imeActionId="6"
         android:inputType="textCapSentences"
         android:nextFocusForward="@id/editTextPassword"
         android:singleLine="true"

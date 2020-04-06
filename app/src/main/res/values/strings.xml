@@ -89,7 +89,7 @@
 
 
 	<!-- Content description -->
-	<string name="squirrel_logo">Logo de Squirrel</string>
-
+	<string name="cd_squirrel_logo">Logo de Squirrel</string>
+	<string name="cd_fingerprint_icon">Icône empreinte digitale</string>
 
 </resources>

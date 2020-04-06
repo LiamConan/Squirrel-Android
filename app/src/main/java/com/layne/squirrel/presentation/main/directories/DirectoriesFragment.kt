@@ -41,7 +41,7 @@ class DirectoriesFragment : Fragment() {
 		model = activity?.run {
 			ViewModelProvider(this).get(MainViewModel::class.java)
 		}
-		activity?.title = getString(R.string.app_name)
+		(activity as MainActivity).appBar?.performShow()
 
 		viewAdapter = DirectoryAdapter(
 			mutableListOf()

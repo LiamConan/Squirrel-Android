@@ -38,7 +38,7 @@
                         android:singleLine="true"
                         android:text="@{key.username}"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextPrimaryStyle"
+                        android:theme="@style/EditTextStyle"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
                         android:singleLine="true"
                         android:text="@{key.email}"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextPrimaryStyle"
+                        android:theme="@style/EditTextStyle"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -100,23 +100,35 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextPassword"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:nextFocusForward="@id/editTextUrl"
-                        android:singleLine="true"
-                        android:text="@{key.password}"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextPrimaryStyle"
+                        app:endIconMode="password_toggle"
+                        app:hintEnabled="false"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonKey"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@android:color/transparent"
+                            app:hintTextColor="@android:color/transparent"
+                            android:backgroundTint="@android:color/transparent"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:nextFocusForward="@id/editTextUrl"
+                            android:singleLine="true"
+                            android:text="@{key.password}"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:theme="@style/EditTextStyle" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageButton
                         android:id="@+id/buttonKey"
@@ -163,7 +175,7 @@
                         android:singleLine="true"
                         android:text="@{key.url}"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextPrimaryStyle"
+                        android:theme="@style/EditTextStyle"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -193,7 +205,7 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:text="@{key.note}"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:theme="@style/EditTextPrimaryStyle"
+                    android:theme="@style/EditTextStyle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

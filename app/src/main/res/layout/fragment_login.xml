@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/cd_squirrel_logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/navigation_bar_height"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,6 +120,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/cd_fingerprint_icon"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_fingerprint"
             android:tint="?android:attr/textColorPrimary" />
@@ -132,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="@string/new_file"
         android:textSize="12sp"
