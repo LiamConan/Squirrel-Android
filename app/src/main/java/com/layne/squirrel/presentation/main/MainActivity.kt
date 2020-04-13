@@ -1,7 +1,9 @@
 package com.layne.squirrel.presentation.main
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -12,6 +14,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.layne.squirrel.R
 import com.layne.squirrel.core.domain.Directory
+import com.layne.squirrel.presentation.main.directories.dialog.UseAutofillServiceDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +42,15 @@ class MainActivity : AppCompatActivity() {
 		model?.data?.observe(this, Observer {
 			model?.saveData()
 		})
+
+		model?.isNeededToAskForAutofill {
+			if (it) UseAutofillServiceDialog{
+				model?.setAutofillJustAsked()
+				val uri: Uri = Uri.parse("package:$packageName")
+				val i = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE, uri)
+				startActivityForResult(i, UseAutofillServiceDialog.ACTION_REQUEST_AUTOFILL)
+			}.show(this)
+		}
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -48,5 +60,15 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		return super.onOptionsItemSelected(item)
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+
+		if (requestCode == UseAutofillServiceDialog.ACTION_REQUEST_AUTOFILL
+			&& resultCode == RESULT_OK
+		) {
+			model?.rememberPassword()
+		}
 	}
 }

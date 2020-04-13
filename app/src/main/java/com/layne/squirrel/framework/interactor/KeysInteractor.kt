@@ -1,8 +1,9 @@
-package com.layne.squirrel.framework
+package com.layne.squirrel.framework.interactor
 
 import com.layne.squirrel.core.usecases.keys.*
+import com.layne.squirrel.core.usecases.password.GeneratePassword
 
-class KeysUseCases(
+class KeysInteractor(
 	val addAccount: AddAccount,
 	val addDirectory: AddDirectory,
 	val deleteAccount: DeleteAccount,
@@ -13,5 +14,7 @@ class KeysUseCases(
 	val saveKeys: SaveKeys,
 	val swapAccounts: SwapAccounts,
 	val swapDirectories: SwapDirectories,
-	val updateAccount: UpdateAccount
+	val updateAccount: UpdateAccount,
+	val searchKeys: SearchKeys,
+	val generatePassword: GeneratePassword
 )

@@ -1,12 +1,10 @@
 package com.layne.squirrel.core.data
 
-class PasswordRepository(private val dataSource: PasswordDataSource): PasswordDataSource {
+class PasswordRepository(private val dataSource: PasswordDataSource) {
 
-	override suspend fun exists(key: String): Boolean = dataSource.exists(key)
+	suspend fun read(key: String): String = dataSource.read(key)
 
-	override suspend fun read(key: String): String = dataSource.read(key)
+	suspend fun write(key: String, password: String) = dataSource.write(key, password)
 
-	override suspend fun write(key: String, password: String) = dataSource.write(key, password)
-
-	override suspend fun delete(key: String) = dataSource.delete(key)
+	suspend fun delete(key: String) = dataSource.delete(key)
 }

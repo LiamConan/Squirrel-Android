@@ -69,17 +69,19 @@ class LoginFragment : Fragment() {
 		}
 
 		imageButtonFingerprint.setOnClickListener { showBiometricPrompt() }
+	}
+
+	override fun onResume() {
+		super.onResume()
 
 		activity?.run {
-			model?.selectedPath?.observe(this, Observer {
-				editTextFilePath.setText(it)
-				model?.hasRegisteredPassword(it) { passwordSaved ->
-					if (passwordSaved) {
-						imageButtonFingerprint.visibility = View.VISIBLE
-						showBiometricPrompt()
-					} else
-						imageButtonFingerprint.visibility = View.INVISIBLE
-				}
+			model?.selectedPath?.observe(this, Observer { path ->
+				editTextFilePath.setText(path)
+
+				if (model?.getFilePreferences()?.biometricsSaved == true) {
+					imageButtonFingerprint.visibility = View.VISIBLE
+					showBiometricPrompt()
+				} else imageButtonFingerprint.visibility = View.INVISIBLE
 			})
 		}
 	}
@@ -165,11 +167,7 @@ class LoginFragment : Fragment() {
 								FirebaseAnalytics.Event.LOGIN,
 								bundleOf(FirebaseAnalytics.Param.CONTENT_TYPE to "biometrics")
 							)
-							model?.getRegisteredPassword(
-								model?.selectedPath?.value ?: ""
-							) { password ->
-								unlock(password)
-							}
+							unlock(model?.getFilePreferences()?.password ?: "")
 						}
 					})
 		}

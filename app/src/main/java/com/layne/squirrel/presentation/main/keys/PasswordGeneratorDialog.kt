@@ -6,22 +6,18 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.layne.squirrel.R
-import com.layne.squirrel.framework.PasswordUseCases
 import com.layne.squirrel.framework.Squirrel
 import com.layne.squirrel.presentation.main.MainViewModel
-import javax.inject.Inject
 
 class PasswordGeneratorDialog : DialogFragment() {
 
-	@Inject
-	lateinit var useCases: PasswordUseCases
-
 	private var model: MainViewModel? = null
-	private var editTextCaracNumber: EditText? = null
+	private var numberPicker: NumberPicker? = null
 	private var checkBoxLowercase: CheckBox? = null
 	private var checkBoxUppercase: CheckBox? = null
 	private var checkBoxNumbers: CheckBox? = null
@@ -40,7 +36,9 @@ class PasswordGeneratorDialog : DialogFragment() {
 
 		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
-		editTextCaracNumber = view.findViewById(R.id.editTextCaracNumber)
+		numberPicker = view.findViewById(R.id.numberPicker)
+		numberPicker?.minValue = 1
+		numberPicker?.maxValue = 1024
 		checkBoxLowercase = view.findViewById(R.id.checkBoxLowercase)
 		checkBoxUppercase = view.findViewById(R.id.checkBoxUppercase)
 		checkBoxNumbers = view.findViewById(R.id.checkBoxNumbers)
@@ -63,10 +61,11 @@ class PasswordGeneratorDialog : DialogFragment() {
 		super.onStart()
 
 		buttonGenerate?.setOnClickListener {
+			editTextPassword?.error = null
 			if (isFormValid())
 				editTextPassword?.setText(
-					useCases.generatePassword(
-						editTextCaracNumber?.text.toString().toInt(),
+					model?.generatePassword(
+						numberPicker?.value ?: 1,
 						checkBoxLowercase?.isChecked == true,
 						checkBoxUppercase?.isChecked == true,
 						checkBoxNumbers?.isChecked == true,
@@ -74,8 +73,7 @@ class PasswordGeneratorDialog : DialogFragment() {
 						checkBoxSpecials?.isChecked == true
 					)
 				)
-			else
-				showFormErrors()
+			else editTextPassword?.error = getText(R.string.mustChooseOneOption)
 		}
 	}
 
@@ -84,30 +82,9 @@ class PasswordGeneratorDialog : DialogFragment() {
 		return this
 	}
 
-	private fun isFormValid() =
-		editTextCaracNumber?.text?.isNotEmpty() == true
-				&& (checkBoxLowercase?.isChecked == true
-				|| checkBoxUppercase?.isChecked == true
-				|| checkBoxNumbers?.isChecked == true
-				|| checkBoxSpaces?.isChecked == true
-				|| checkBoxSpecials?.isChecked == true)
-				&& editTextCaracNumber?.text.toString().toInt() > 0
-				&& editTextCaracNumber?.text.toString().toInt() < 1024
-
-	private fun showFormErrors() {
-		if (editTextCaracNumber?.text?.isEmpty() == true) {
-			editTextPassword?.error = getText(R.string.mustFillNumberCarac)
-		} else if (checkBoxLowercase?.isChecked == false
-			&& checkBoxUppercase?.isChecked == false
-			&& checkBoxNumbers?.isChecked == false
-			&& checkBoxSpaces?.isChecked == false
-			&& checkBoxSpecials?.isChecked == false
-		) {
-			editTextPassword?.error = getText(R.string.mustChooseOneOption)
-		} else {
-			val n = editTextCaracNumber?.text.toString().toInt()
-			if (n <= 0 || n > 1024)
-				editTextPassword?.error = getText(R.string.wrong_password_length)
-		}
-	}
+	private fun isFormValid() = checkBoxLowercase?.isChecked == true
+			|| checkBoxUppercase?.isChecked == true
+			|| checkBoxNumbers?.isChecked == true
+			|| checkBoxSpaces?.isChecked == true
+			|| checkBoxSpecials?.isChecked == true
 }

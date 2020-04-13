@@ -28,21 +28,28 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextUsername"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/menu_showkey_username"
-                        android:inputType="text"
-                        android:nextFocusForward="@id/editTextEmail"
-                        android:singleLine="true"
-                        android:text="@{key.username}"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextStyle"
+                        android:textColorHint="@color/hintKeyColor"
+                        app:boxStrokeColor="@color/colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonCopyUsername"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:hint="@string/menu_showkey_username"
+                            android:inputType="text"
+                            android:nextFocusForward="@id/editTextEmail"
+                            android:singleLine="true"
+                            android:text="@{key.username}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageButton
                         android:id="@+id/buttonCopyUsername"
@@ -65,21 +72,28 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEmail"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/menu_showkey_email"
-                        android:inputType="textEmailAddress"
-                        android:nextFocusForward="@id/editTextPassword"
-                        android:singleLine="true"
-                        android:text="@{key.email}"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextStyle"
+                        android:textColorHint="@color/hintKeyColor"
+                        app:boxStrokeColor="@color/colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonCopyEmail"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:hint="@string/menu_showkey_email"
+                            android:inputType="textEmailAddress"
+                            android:nextFocusForward="@id/editTextPassword"
+                            android:singleLine="true"
+                            android:text="@{key.email}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageButton
                         android:id="@+id/buttonCopyEmail"
@@ -106,8 +120,10 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textColorHint="@color/hintKeyColor"
+                        app:boxStrokeColor="@color/colorPrimary"
                         app:endIconMode="password_toggle"
-                        app:hintEnabled="false"
+                        app:endIconTint="?android:attr/textColorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/buttonKey"
                         app:layout_constraintStart_toStartOf="parent"
@@ -117,16 +133,12 @@
                             android:id="@+id/editTextPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColorHint="@android:color/transparent"
-                            app:hintTextColor="@android:color/transparent"
                             android:backgroundTint="@android:color/transparent"
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:nextFocusForward="@id/editTextUrl"
                             android:singleLine="true"
-                            android:text="@{key.password}"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:theme="@style/EditTextStyle" />
+                            android:text="@{key.password}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,21 +177,28 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextUrl"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/menu_showkey_url"
-                        android:inputType="textUri"
-                        android:nextFocusForward="@id/editTextNote"
-                        android:singleLine="true"
-                        android:text="@{key.url}"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:theme="@style/EditTextStyle"
+                        android:textColorHint="@color/hintKeyColor"
+                        app:boxStrokeColor="@color/colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonCopyUrl"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:hint="@string/menu_showkey_url"
+                            android:inputType="textUri"
+                            android:nextFocusForward="@id/editTextNote"
+                            android:singleLine="true"
+                            android:text="@{key.url}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageButton
                         android:id="@+id/buttonCopyUrl"
@@ -196,24 +215,30 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextNote"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="@string/menu_showkey_note"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:text="@{key.note}"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:theme="@style/EditTextStyle"
+                    android:textColorHint="@color/hintKeyColor"
+                    app:boxStrokeColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:hint="@string/menu_showkey_note"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:text="@{key.note}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonDelete"
-                    style="@style/PrimaryFlatButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

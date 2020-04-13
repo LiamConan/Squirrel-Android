@@ -6,19 +6,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.layne.squirrel.R
-import com.layne.squirrel.framework.PasswordUseCases
 import com.layne.squirrel.framework.Squirrel
 import com.layne.squirrel.presentation.main.MainViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
-class CancelBiometricsDialog : DialogFragment() {
+class CancelBiometricsDialog : DialogFragment(), CoroutineScope by MainScope() {
 
 	private var model: MainViewModel? = null
-
-	@Inject
-	lateinit var passwordUseCases: PasswordUseCases
 
 	init {
 		Squirrel.dagger.inject(this)
@@ -34,9 +29,7 @@ class CancelBiometricsDialog : DialogFragment() {
 			.setTitle(getText(R.string.biometric_title))
 			.setMessage(getString(R.string.cancel_biometrics_dialog_message))
 			.setPositiveButton(R.string.cancel_biometrics_dialog_yes) { _, _ ->
-				GlobalScope.launch {
-					passwordUseCases.deletePassword(model?.uri?.toString() ?: "")
-				}
+				model?.disableBiometrics()
 			}
 			.setNegativeButton(R.string.cancel_biometrics_dialog_no, null)
 			.create()

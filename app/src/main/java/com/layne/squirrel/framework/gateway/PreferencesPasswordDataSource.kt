@@ -8,8 +8,6 @@ class PreferencesPasswordDataSource(context: Context): PasswordDataSource {
 
 	private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-	override suspend fun exists(key: String): Boolean = prefs.contains(key)
-
 	override suspend fun read(key: String): String = prefs.getString(key, "") ?: ""
 
 	override suspend fun write(key: String, password: String) {

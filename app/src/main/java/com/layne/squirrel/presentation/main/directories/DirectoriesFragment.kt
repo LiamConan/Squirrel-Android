@@ -1,7 +1,9 @@
 package com.layne.squirrel.presentation.main.directories
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.Intent
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.Bundle
@@ -115,12 +117,10 @@ class DirectoriesFragment : Fragment() {
 
 		when (item.itemId) {
 			R.id.biometrics -> {
-				model?.checkPasswordExists(model?.uri?.toString() ?: "") {
-					if (it)
-						activity?.run { CancelBiometricsDialog().show("biometrics", this) }
-					else
-						showBiometricPrompt()
-				}
+				if (model?.isBiometricsEnabled() == true)
+					activity?.run { CancelBiometricsDialog().show("biometrics", this) }
+				else
+					showBiometricPrompt()
 			}
 			R.id.changePassword -> {
 				activity?.run {
@@ -151,10 +151,7 @@ class DirectoriesFragment : Fragment() {
 						object : BiometricPrompt.AuthenticationCallback() {
 							override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
 								super.onAuthenticationSucceeded(result)
-								model?.savePassword(
-									model?.uri?.toString() ?: "",
-									model?.password ?: ""
-								)
+								model?.enableBiometrics()
 							}
 						})
 			} else

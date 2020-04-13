@@ -1,25 +1,13 @@
 package com.layne.squirrel.framework
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.preference.PreferenceManager
+import com.google.gson.Gson
+import com.layne.squirrel.framework.autofill.ParsedStructure
 import com.layne.squirrel.presentation.main.keys.KeyFragment
-
-fun preferences(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-
-fun SharedPreferences.savePassword(uri: String, password: String) {
-	with(edit())
-	{
-		putString(uri, password)
-		apply()
-	}
-}
 
 fun fragmentOf(bundle: Bundle): KeyFragment {
 	val fragment = KeyFragment()
@@ -42,3 +30,8 @@ fun DialogFragment.show(tag: String, activity: FragmentActivity) {
 
 	show(ft, tag)
 }
+
+fun parsedStructured(block: ParsedStructure.() -> Unit) = ParsedStructure().apply(block)
+
+fun String.containsOneOf(vararg strings: String): Boolean = strings.any { this.contains(it) }
+fun CharSequence.containsOneOf(vararg strings: String): Boolean = strings.any { this.contains(it) }

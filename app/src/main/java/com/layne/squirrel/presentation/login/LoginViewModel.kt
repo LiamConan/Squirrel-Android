@@ -3,74 +3,66 @@ package com.layne.squirrel.presentation.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.layne.squirrel.core.domain.Directory
-import com.layne.squirrel.framework.KeysUseCases
-import com.layne.squirrel.framework.LastFileUseCases
-import com.layne.squirrel.framework.PasswordUseCases
+import com.layne.squirrel.core.domain.FilePreferences
 import com.layne.squirrel.framework.Squirrel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import com.layne.squirrel.framework.interactor.KeysInteractor
+import com.layne.squirrel.framework.interactor.PreferencesInteractor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel : ViewModel(), CoroutineScope by MainScope() {
 
-    @Inject
-    lateinit var keysUseCases: KeysUseCases
-    @Inject
-    lateinit var passwordUseCases: PasswordUseCases
-    @Inject
-    lateinit var lastFileUseCases: LastFileUseCases
+	@Inject
+	lateinit var keysInteractor: KeysInteractor
+	@Inject
+	lateinit var preferencesInteractor: PreferencesInteractor
 
-    var newFile = false
-    var selectedPath = MutableLiveData("")
-    var isPasswordSaved = false
+	var newFile = false
+	var selectedPath: MutableLiveData<String> = MutableLiveData()
+	var preferences: FilePreferences? = null
 
-    init {
-        Squirrel.dagger.inject(this)
-        loadLastUsedPath()
-    }
+	init {
+		Squirrel.dagger.inject(this)
 
-    fun hasRegisteredPassword(path: String, block: (Boolean) -> Unit) {
-        GlobalScope.launch(context = Dispatchers.Main) {
-            val isPasswordSaved = passwordUseCases.checkPasswordExists(path)
-            block(isPasswordSaved)
-        }
-    }
+		launch {
+			selectedPath.postValue(preferencesInteractor.getFilePath())
+		}
+	}
 
-    fun getRegisteredPassword(key: String, block: (String) -> Unit) {
-        GlobalScope.launch {
-            block(passwordUseCases.getPassword(key))
-        }
-    }
+	fun getFilePreferences(): FilePreferences {
+		if (preferences == null) {
+			runBlocking {
+				preferences = preferencesInteractor.getFilePreferences(selectedPath.value ?: "")
+			}
+		}
+		return preferences ?: FilePreferences()
+	}
 
-    private fun loadLastUsedPath() {
-        GlobalScope.launch {
-            selectedPath.postValue(lastFileUseCases.getLastFilePath())
-        }
-    }
-
-    fun loadData(
-        path: String?,
-        password: String?,
-        success: (MutableList<Directory>) -> Unit,
-        fail: () -> Unit
-    ) {
-        if (path != null && password != null) {
-            if (newFile) {
-                newFile = false
-                success(mutableListOf())
-            } else {
-                GlobalScope.launch {
-                    try {
-                        keysUseCases.getKeys(path, password)?.toMutableList()?.let {
-                            lastFileUseCases.saveLastFilePath(path)
-                            success(it)
-                        }
-                    } catch (e: Exception) {
-                        fail()
-                    }
-                }
-            }
-        }
-    }
+	fun loadData(
+		path: String?,
+		password: String?,
+		success: (MutableList<Directory>) -> Unit,
+		fail: () -> Unit
+	) {
+		if (path != null && password != null) {
+			if (newFile) {
+				newFile = false
+				success(mutableListOf())
+			} else {
+				launch {
+					try {
+						keysInteractor.getKeys(path, password)?.toMutableList()?.let {
+							preferencesInteractor.saveFilePath(path)
+							success(it)
+						}
+					} catch (e: Exception) {
+						fail()
+					}
+				}
+			}
+		}
+	}
 }

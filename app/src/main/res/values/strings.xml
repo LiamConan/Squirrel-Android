@@ -3,15 +3,13 @@
 
     <!-- Login -->
     <string name="open_label">Ouvrir</string>
-	<string name="create_label">Créer</string>
+    <string name="create_label">Créer</string>
     <string name="bad_password">Mot de passe erroné</string>
 
-	<string name="prompt_path">Chemin vers le fichier</string>
+    <string name="prompt_path">Chemin vers le fichier</string>
     <string name="action_sign_in_short">Sign in</string>
-	<string name="password">Mot de passe</string>
-	<string name="new_file">Nouveau fichier</string>
-
-	<!-- Register -->
+    <string name="password">Mot de passe</string>
+    <string name="new_file">Nouveau fichier</string>
 
     <!-- Dirs -->
 
@@ -20,76 +18,87 @@
     <string name="reorder_dir">Réordonner</string>
     <string name="new_dir">Nouveau dossier</string>
     <string name="rename_dir">Renommer le dossier</string>
-	<string name="delete_dir">Supprimer le dossier</string>
-	<string name="yes">Oui</string>
+    <string name="delete_dir">Supprimer le dossier</string>
+    <string name="yes">Oui</string>
     <string name="confirm_directory_deleting">Êtes-vous sûr de vouloir supprimer ce dossier et tout ce qu\'il contient ?\nIl n\'y aura pas de retour en arrière possible.</string>
     <string name="newdir_name">Nom</string>
-	<string name="biometric_menu">Reconnaissance biométrique</string>
-	<string name="no_fingerprint_detected">Aucune empreinte digitale enregistrée sur l\'appareil</string>
-	<string name="actual_password">Mot de passe actuel</string>
-	<string name="new_password">Nouveau mot de passe</string>
-	<string name="new_password_confirmation">Confirmation</string>
-	<string name="wrong_password">Mot de passe erroné</string>
-	<string name="password_does_not_match">Le mot de passe ne correspond pas</string>
+    <string name="biometric_menu">Reconnaissance biométrique</string>
+    <string name="no_fingerprint_detected">Aucune empreinte digitale enregistrée sur l\'appareil</string>
+    <string name="actual_password">Mot de passe actuel</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="new_password_confirmation">Confirmation</string>
+    <string name="wrong_password">Mot de passe erroné</string>
+    <string name="password_does_not_match">Le mot de passe ne correspond pas</string>
 
-	<!-- Keys -->
+    <!-- Keys -->
 
-	<string name="menu_showkeys_copy_username">Copier le nom d\'utilisateur</string>
-	<string name="menu_showkeys_copy_email">Copier l\'email</string>
-	<string name="menu_showkeys_copy_password">Copier le mot de passe</string>
-	<string name="menu_showkeys_go_to_url">Aller à l\'url</string>
+    <string name="menu_showkeys_copy_username">Copier le nom d\'utilisateur</string>
+    <string name="menu_showkeys_copy_email">Copier l\'email</string>
+    <string name="menu_showkeys_copy_password">Copier le mot de passe</string>
+    <string name="menu_showkeys_go_to_url">Aller à l\'url</string>
     <string name="menu_showkeys_user">Utilisateur</string>
-	<string name="menu_showkeys_cancel">Annuler</string>
-	<string name="showkeys_copied">Copié !</string>
+    <string name="menu_showkeys_cancel">Annuler</string>
+    <string name="showkeys_copied">Copié !</string>
     <string name="no_valid_url">Pas d\'url valide trouvée</string>
     <string name="key_deleted">%1$s supprimé</string>
 
     <!-- Key -->
     <string name="menu_showkey_username">Identifiant</string>
-	<string name="menu_showkey_email">E-mail</string>
+    <string name="menu_showkey_email">E-mail</string>
     <string name="menu_showkey_url">Url</string>
     <string name="menu_showkey_note">Note</string>
     <string name="showkey_copied">Copié !</string>
 
     <string name="menu_showkey_delete">Supprimer</string>
-	<string name="menu_showkey_save">Sauvegarder</string>
+    <string name="menu_showkey_save">Sauvegarder</string>
     <string name="key_not_filled">Le titre, le nom d\'utilisateur et le mot de passe doivent être remplis pour chaque clé.</string>
-	<string name="malformed_url">URL non conforme</string>
-	<string name="empty_url">L\'URL est vide</string>
+    <string name="malformed_url">URL non conforme</string>
+    <string name="empty_url">L\'URL est vide</string>
 
-	<!-- Key dialog fragment -->
-	<string name="generatePassword">Générer un mot de passe</string>
-	<string name="caracNumber">Nombre de caractères</string>
-	<string name="checkboxlowercase">Minuscules</string>
-	<string name="checkboxuppercase">Majuscules</string>
-	<string name="checkboxnumbers">Nombres</string>
-	<string name="checkboxspaces">Espaces</string>
-	<string name="checkboxspecials">Spéciaux</string>
-	<string name="generate">Générer</string>
-	<string name="openkeygenerator">Ouvrir le générateur de mot de passe</string>
-	<string name="mustFillNumberCarac">La longueur du mot de passe doit être indiquée</string>
-	<string name="mustChooseOneOption">Au moins une des options doit être sélectionnée</string>
-	<string name="wrong_password_length">La longueur du mot de passe doit être positive et ne pas dépasser 1024 caractères</string>
+    <!-- Key dialog fragment -->
+    <string name="generatePassword">Générer un mot de passe</string>
+    <string name="caracNumber">Nombre de caractères</string>
+    <string name="checkboxlowercase">Minuscules</string>
+    <string name="checkboxuppercase">Majuscules</string>
+    <string name="checkboxnumbers">Nombres</string>
+    <string name="checkboxspaces">Espaces</string>
+    <string name="checkboxspecials">Spéciaux</string>
+    <string name="generate">Générer</string>
+    <string name="openkeygenerator">Ouvrir le générateur de mot de passe</string>
+    <string name="mustChooseOneOption">Au moins une des options doit être sélectionnée</string>
 
     <!-- Various -->
     <string name="validate">Valider</string>
     <string name="cancel">Annuler</string>
 
-	<!-- Preferences -->
+    <!-- Preferences -->
 
     <!-- Biometrics -->
-	<string name="biometric_title">Authentification biométrique</string>
-	<string name="biometric_subtitle">Empreinte</string>
-	<string name="biometric_activation_description">Veuillez passer votre doigt sur le capteur biométrique de votre téléphone afin que Squirrel puisse mémoriser votre mot de passe et se déverrouiller au démarrage avec votre empreinte</string>
-	<string name="biometric_unlock_description">Veuillez passer votre doigt sur le capteur afin de dévérouiller Squirrel</string>
-	<string name="biometric_cancel">Annuler</string>
-	<string name="cancel_biometrics_dialog_message">Voulez-vous désactiver l\'authentification biométrique ?</string>
-	<string name="cancel_biometrics_dialog_yes">Oui</string>
-	<string name="cancel_biometrics_dialog_no">Non</string>
+    <string name="biometric_title">Authentification biométrique</string>
+    <string name="biometric_subtitle">Empreinte</string>
+    <string name="biometric_activation_description">Veuillez passer votre doigt sur le capteur biométrique de votre téléphone afin que Squirrel puisse mémoriser votre mot de passe et se déverrouiller au démarrage avec votre empreinte</string>
+    <string name="biometric_unlock_description">Veuillez passer votre doigt sur le capteur afin de dévérouiller Squirrel</string>
+    <string name="biometric_cancel">Annuler</string>
+    <string name="cancel_biometrics_dialog_message">Voulez-vous désactiver l\'authentification biométrique ?</string>
+    <string name="cancel_biometrics_dialog_yes">Oui</string>
+    <string name="cancel_biometrics_dialog_no">Non</string>
+
+    <!-- Autofill Dialog -->
+    <string name="autofill_dialog_title">Auto-complétion</string>
+    <string name="autofill_dialog_message">Squirrel n\'est actuellement pas utilisé comme service d\'auto-complétion pour les mots de passe de cet appareil.\nVoulez-vous faire de Squirrel votre service d\'auto-complétion par défaut ?</string>
+    <string name="autofill_dialog_positive">Oui</string>
+    <string name="autofill_dialog_neutral">Ne plus me demander</string>
+    <string name="autofill_dialog_negative">Non</string>
 
 
-	<!-- Content description -->
-	<string name="cd_squirrel_logo">Logo de Squirrel</string>
-	<string name="cd_fingerprint_icon">Icône empreinte digitale</string>
+    <!-- Autofill Service -->
+    <string name="password_for">Mot de passe pour %1$s</string>
+    <string name="no_data_provided">L\'application %1$s n\'a fournis aucune données permettant la sauvegarde des identifiants</string>
+
+
+    <!-- Content description -->
+    <string name="cd_squirrel_logo">Logo de Squirrel</string>
+    <string name="cd_fingerprint_icon">Icône empreinte digitale</string>
+
 
 </resources>

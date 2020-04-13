@@ -7,14 +7,15 @@ import com.layne.squirrel.core.domain.Account
 import com.layne.squirrel.core.domain.Directory
 import com.layne.squirrel.core.domain.Key
 import com.layne.squirrel.core.usecases.keys.*
-import com.layne.squirrel.framework.KeysUseCases
+import com.layne.squirrel.framework.interactor.KeysInteractor
 import com.layne.squirrel.framework.gateway.file.gson.DataEntity
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Test
 
-class DataTest {
+class KeysInteractorTest: CoroutineScope by MainScope() {
 
 	private val json =
 		"{\"dirs\":[{\"name\":\"Clés\",\"keys\":[{\"date\":\"Lundi 30 Décembre 2019\",\"subkeys\":[{\"mail\":\"\",\"note\":\"\",\"password\":\"blablabla\",\"url\":\"\",\"user\":\"the-kid2005@hotmail.fr\"}],\"name\":\"Adobe\"},{\"date\":\"Samedi 28 Avril 2018\",\"subkeys\":[{\"mail\":\"raven0320@yahoo.fr\",\"note\":\"\",\"password\":\"blablabla\",\"url\":\"http://www.airbnb.fr\",\"user\":\"Gabriel\"}],\"name\":\"Airbnb\"}]}]}"
@@ -27,19 +28,21 @@ class DataTest {
 
 		override suspend fun write(data: List<Directory>, uri: String, password: String) {}
 	})
-	private val useCases: KeysUseCases = KeysUseCases(
-		AddAccount(),
-		AddDirectory(),
-		DeleteAccount(),
-		DeleteDirectory(),
-		GetKeys(repository),
-		RemitAccount(),
-		RemitDirectory(),
-		SaveKeys(repository),
-		SwapAccounts(),
-		SwapDirectories(),
-		UpdateAccount()
-	)
+	private val interactor: KeysInteractor =
+		KeysInteractor(
+			AddAccount(),
+			AddDirectory(),
+			DeleteAccount(),
+			DeleteDirectory(),
+			GetKeys(repository),
+			RemitAccount(),
+			RemitDirectory(),
+			SaveKeys(repository),
+			SwapAccounts(),
+			SwapDirectories(),
+			UpdateAccount(),
+			SearchKeys()
+		)
 
 	@Test
 	fun `GIVEN data WHEN deserialize THEN return corresponding object`() {
@@ -71,7 +74,7 @@ class DataTest {
 	fun `GIVEN data WHEN adding directory THEN directory is well added`() {
 		val directory = Directory("test", mutableListOf())
 
-		useCases.addDirectory(directories, directory)
+		interactor.addDirectory(directories, directory)
 
 		Assert.assertEquals(2, directories.size)
 		Assert.assertEquals(directory, directories[1])
@@ -79,7 +82,7 @@ class DataTest {
 
 	@Test
 	fun `GIVEN data WHEN deleting directory THEN directory is well deleted`() {
-		useCases.deleteDirectory(directories, 0)
+		interactor.deleteDirectory(directories, 0)
 
 		Assert.assertEquals(0, directories.size)
 	}
@@ -87,8 +90,8 @@ class DataTest {
 	@Test
 	fun `GIVEN data WHEN remit directory THEN directory is well remited`() {
 		val directory = directories[0]
-		useCases.deleteDirectory(directories, 0)
-		useCases.remiteDirectory(directories, 0, directory)
+		interactor.deleteDirectory(directories, 0)
+		interactor.remiteDirectory(directories, 0, directory)
 
 		Assert.assertEquals(1, directories.size)
 		Assert.assertEquals("Clés", directories[0].title)
@@ -110,7 +113,7 @@ class DataTest {
 			mutableListOf(key)
 		)
 
-		useCases.addAccount(directories[0].accounts, account)
+		interactor.addAccount(directories[0].accounts, account)
 
 		Assert.assertEquals(3, directories[0].accounts.size)
 		Assert.assertEquals(account, directories[0].accounts[2])
@@ -130,7 +133,7 @@ class DataTest {
 			"Lundi 30 Décembre 2019",
 			mutableListOf(key)
 		)
-		useCases.updateAccount(directories[0].accounts, 1, account)
+		interactor.updateAccount(directories[0].accounts, 1, account)
 
 		Assert.assertEquals(2, directories[0].accounts.size)
 		Assert.assertEquals(account, directories[0].accounts[1])
@@ -138,7 +141,7 @@ class DataTest {
 
 	@Test
 	fun `GIVEN data WHEN deleting account THEN account is well deleted`() {
-		useCases.deleteAccount(directories[0].accounts, 0)
+		interactor.deleteAccount(directories[0].accounts, 0)
 
 		Assert.assertEquals(1, directories[0].accounts.size)
 		Assert.assertEquals("Airbnb", directories[0].accounts[0].title)
@@ -147,8 +150,8 @@ class DataTest {
 	@Test
 	fun `GIVEN data WHEN remit account THEN account is well remited`() {
 		val account = directories[0].accounts[0]
-		useCases.deleteAccount(directories[0].accounts, 0)
-		useCases.remiteAccount(directories[0].accounts, 0, account)
+		interactor.deleteAccount(directories[0].accounts, 0)
+		interactor.remiteAccount(directories[0].accounts, 0, account)
 
 		Assert.assertEquals(2, directories[0].accounts.size)
 		Assert.assertEquals("Adobe", directories[0].accounts[0].title)
@@ -156,9 +159,17 @@ class DataTest {
 
 	@Test
 	fun `GIVEN use case WHEN get keys THEN returns keys`() {
-		GlobalScope.launch {
-			val data = useCases.getKeys("test", "test")
+		launch {
+			val data = interactor.getKeys("test", "test")
 			Assert.assertEquals(directories, data)
 		}
+	}
+
+	@Test
+	fun `GIVEN a keyword WHEN search on keys THEN returns expected keys`() {
+		val keys = interactor.searchKeys(directories, "airbnb")
+
+		Assert.assertEquals(1, keys.size)
+		Assert.assertEquals("Airbnb", keys[0].title)
 	}
 }

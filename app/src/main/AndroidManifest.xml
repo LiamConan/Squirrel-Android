@@ -28,6 +28,18 @@
         </activity>
         <activity android:name=".presentation.main.MainActivity" />
 
+        <service
+            android:name=".framework.autofill.PasswordFillService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/autofill_service_configuration" />
+        </service>
+
     </application>
 
 </manifest>
