@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.layne.squirrel.R
 
 class SplashFragment : Fragment() {
 
 	override fun onCreateView(i: LayoutInflater, c: ViewGroup?, b: Bundle?): View? =
-			i.inflate(R.layout.fragment_splash, c, false)
+		i.inflate(R.layout.fragment_splash, c, false)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -20,8 +20,7 @@ class SplashFragment : Fragment() {
 		Thread {
 			Thread.sleep(2000)
 			val options = NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build()
-			NavHostFragment.findNavController(this)
-					.navigate(R.id.loginFragment, null, options)
+			findNavController().navigate(R.id.loginFragment, null, options)
 
 		}.start()
 	}

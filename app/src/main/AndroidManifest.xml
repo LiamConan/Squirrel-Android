@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.layne.squirrel">
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -27,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.main.MainActivity" />
+        <activity android:name=".presentation.creditcards.CreditCardActivity" />
 
         <service
             android:name=".framework.autofill.PasswordFillService"

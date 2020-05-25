@@ -13,8 +13,8 @@ class CryptUtilTest {
 		val password = "test"
 
 		val encrypted = CryptUtil.encrypt(json, password)
-		val decrypted = CryptUtil.decrypt(encrypted!!, password)
-		
+		val decrypted = CryptUtil.decrypt(encrypted ?: throw NullPointerException(), password)
+
 		Assert.assertEquals(decrypted, json)
 	}
 }

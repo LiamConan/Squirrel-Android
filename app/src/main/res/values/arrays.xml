@@ -26,4 +26,9 @@
 		<item>Décembre</item>
 	</string-array>
 
+	<string-array name="civil_denomination">
+		<item>M</item>
+		<item>MME</item>
+	</string-array>
+
 </resources>

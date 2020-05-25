@@ -11,9 +11,14 @@ import com.layne.squirrel.framework.getValue
 
 class CreateDirectoryDialog : DialogFragment() {
 
+	companion object {
+		fun build(block: (String) -> Unit) = CreateDirectoryDialog()
+			.setOnPositiveButtonClickListener(block)
+	}
+
 	private var positiveButtonClickListener: (String) -> Unit = {}
 
-	fun addPositiveButtonClick(l: (String) -> Unit): CreateDirectoryDialog {
+	fun setOnPositiveButtonClickListener(l: (String) -> Unit): CreateDirectoryDialog {
 		positiveButtonClickListener = l
 		return this
 	}

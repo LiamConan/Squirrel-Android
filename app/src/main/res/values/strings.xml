@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Squirrel</string>
 
+    <string name="oops">Oups ! Quelque chose s\'est mal passé</string>
+
     <!-- Login -->
     <string name="open_label">Ouvrir</string>
     <string name="create_label">Créer</string>
@@ -22,13 +24,15 @@
     <string name="yes">Oui</string>
     <string name="confirm_directory_deleting">Êtes-vous sûr de vouloir supprimer ce dossier et tout ce qu\'il contient ?\nIl n\'y aura pas de retour en arrière possible.</string>
     <string name="newdir_name">Nom</string>
-    <string name="biometric_menu">Reconnaissance biométrique</string>
     <string name="no_fingerprint_detected">Aucune empreinte digitale enregistrée sur l\'appareil</string>
     <string name="actual_password">Mot de passe actuel</string>
     <string name="new_password">Nouveau mot de passe</string>
     <string name="new_password_confirmation">Confirmation</string>
     <string name="wrong_password">Mot de passe erroné</string>
     <string name="password_does_not_match">Le mot de passe ne correspond pas</string>
+    <string name="menu_biometrics">Reconnaissance biométrique</string>
+    <string name="menu_credit_card">Cartes de crédit</string>
+    <string name="menu_change_password">Changer le mot de passe</string>
 
     <!-- Keys -->
 
@@ -36,6 +40,7 @@
     <string name="menu_showkeys_copy_email">Copier l\'email</string>
     <string name="menu_showkeys_copy_password">Copier le mot de passe</string>
     <string name="menu_showkeys_go_to_url">Aller à l\'url</string>
+    <string name="menu_showkeys_delete">Supprimer</string>
     <string name="menu_showkeys_user">Utilisateur</string>
     <string name="menu_showkeys_cancel">Annuler</string>
     <string name="showkeys_copied">Copié !</string>
@@ -51,7 +56,7 @@
 
     <string name="menu_showkey_delete">Supprimer</string>
     <string name="menu_showkey_save">Sauvegarder</string>
-    <string name="key_not_filled">Le titre, le nom d\'utilisateur et le mot de passe doivent être remplis pour chaque clé.</string>
+    <string name="key_not_filled">Le titre, l\'identifiant et/ou l\'email et le mot de passe doivent être remplis pour chaque clé.</string>
     <string name="malformed_url">URL non conforme</string>
     <string name="empty_url">L\'URL est vide</string>
 
@@ -95,10 +100,28 @@
     <string name="password_for">Mot de passe pour %1$s</string>
     <string name="no_data_provided">L\'application %1$s n\'a fournis aucune données permettant la sauvegarde des identifiants</string>
 
+    <!-- Credit Card -->
+    <string name="up_to">EXPIRE FIN</string>
+    <string name="cvv">CVV</string>
+    <string name="hint_credit_card_number">Numéro de la carte de crédit</string>
+    <string name="hint_credit_card_expiry">Date d\'expiration</string>
+    <string name="hint_credit_card_firstname">Prénom</string>
+    <string name="hint_credit_card_name">Nom</string>
+    <string name="hint_credit_card_cvv">CVV</string>
+    <string name="menu_save_credit_card">Sauvegarder</string>
+    <string name="credit_card_deleted">La carte %1$s… a été supprimée</string>
+    <string name="full_card_holder_name">%1$s %2$s</string>
+
 
     <!-- Content description -->
     <string name="cd_squirrel_logo">Logo de Squirrel</string>
     <string name="cd_fingerprint_icon">Icône empreinte digitale</string>
+    <string name="cd_chip_icon">Icône puce de carte de crédit</string>
+    <string name="cd_brand_card_icon">Icône de la marque de la carte de crédit (visa, mastercard)</string>
+    <string name="cd_hazelnut">Noisette</string>
 
+    <!-- Attributions -->
+    <string name="ic_chip_attribution">Icons made by Freepik from www.flaticon.com</string>
+    <string name="ic_visa_attribution">Icons made by Pixel Buddha from www.flaticon.com</string>
 
 </resources>

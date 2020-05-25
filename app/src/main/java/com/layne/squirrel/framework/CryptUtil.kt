@@ -9,10 +9,8 @@ import javax.crypto.spec.SecretKeySpec
 object CryptUtil {
 	@Throws(Exception::class)
 	fun encrypt(text: String, password: String): String? {
-		val hashedPassword = toHash(password, "MD5")
-			.substring(0, 16)
-		val iv = toHash(hashedPassword, "SHA1")
-			.substring(0, 16)
+		val hashedPassword = toHash(password, "MD5").substring(0, 16)
+		val iv = toHash(hashedPassword, "SHA1").substring(0, 16)
 
 		val keySpec = SecretKeySpec(hashedPassword.toByteArray(), "AES")
 		val ivSpec = IvParameterSpec(iv.toByteArray())

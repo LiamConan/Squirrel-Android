@@ -4,14 +4,14 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
 import com.layne.squirrel.core.data.KeysDataSource
-import com.layne.squirrel.core.domain.Directory
+import com.layne.squirrel.core.domain.Data
 import com.layne.squirrel.framework.CryptUtil
 import com.layne.squirrel.framework.gateway.file.gson.DataEntity
 import java.io.*
 
 class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 
-	override suspend fun read(path: String, password: String): List<Directory>? {
+	override suspend fun read(path: String, password: String): Data? {
 		val uri = Uri.parse(path)
 		uri?.let {
 			try {
@@ -28,7 +28,7 @@ class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 
 						val decrypted = CryptUtil.decrypt(builder.toString(), password)
 
-						return Gson().fromJson(decrypted, DataEntity::class.java).toDirectories()
+						return Gson().fromJson(decrypted, DataEntity::class.java).toData()
 					}
 				}
 			} catch (e: FileNotFoundException) {
@@ -41,7 +41,7 @@ class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 		return null
 	}
 
-	override suspend fun write(data: List<Directory>, uri: String, password: String) {
+	override suspend fun write(data: Data, uri: String, password: String) {
 		try {
 			context.contentResolver.openFileDescriptor(Uri.parse(uri), "rwt")?.use {
 				FileOutputStream(it.fileDescriptor).use { fos ->

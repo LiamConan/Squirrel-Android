@@ -16,6 +16,7 @@ class SharedPreferencesDataSource(private val context: Context) : PreferencesDat
 		const val PREF_LAST_URI = "last_uri"
 		const val PREF_LAST_ASKED_AUTOFILL = "last_autofill_asked"
 		const val PREF_NEVER_ASK_AGAIN_AUTOFILL = "never_ask_again_for_autofill"
+		const val DAY_DURATION = 80400000
 	}
 
 	private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -40,8 +41,7 @@ class SharedPreferencesDataSource(private val context: Context) : PreferencesDat
 				val needToAsk = manager.isAutofillSupported && !manager.hasEnabledAutofillServices()
 				val lastTimeAsked = prefs.getLong(PREF_LAST_ASKED_AUTOFILL, 0)
 				val now = Calendar.getInstance().timeInMillis
-				val aDay = 80400000
-				val timeToAsk = now - aDay > lastTimeAsked
+				val timeToAsk = now - DAY_DURATION > lastTimeAsked
 
 				needToAsk && timeToAsk
 			}

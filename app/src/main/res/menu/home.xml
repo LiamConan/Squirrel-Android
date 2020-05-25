@@ -4,11 +4,16 @@
     <item
         android:id="@+id/biometrics"
         android:icon="@drawable/ic_action_fingerprint"
-        android:title="@string/biometric_menu"
-        app:showAsAction="always" />
+        android:title="@string/menu_biometrics"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/changePassword"
         android:icon="@drawable/ic_action_lock"
-        android:title="@string/biometric_menu"
-        app:showAsAction="always" />
+        android:title="@string/menu_change_password"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/creditCard"
+        android:icon="@drawable/ic_action_credit_card"
+        android:title="@string/menu_credit_card"
+        app:showAsAction="ifRoom" />
 </menu>

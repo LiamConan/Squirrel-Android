@@ -19,35 +19,39 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.Gson
 import com.layne.squirrel.R
 import com.layne.squirrel.framework.Squirrel
+import com.layne.squirrel.framework.dataHolder
+import com.layne.squirrel.framework.di.DaggerViewModelFactory
 import com.layne.squirrel.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
+import javax.inject.Inject
 
 class LoginFragment : Fragment() {
+
 	companion object {
 		const val PERMISSION_STORAGE_CREATE = 1
 		const val PERMISSION_STORAGE_OPEN = 2
 		const val OPEN_DOCUMENTE_CODE = 1
 		const val CREATE_DOCUMENT_CODE = 2
+		const val MANUAL_LOGIN = "manual"
+		const val BIOMETRICS_LOGIN = "biometrics"
 	}
 
-	private var model: LoginViewModel? = null
+	@Inject
+	lateinit var viewModelFactory: DaggerViewModelFactory
+	private val model by viewModels<LoginViewModel> { viewModelFactory }
 
 	override fun onCreateView(i: LayoutInflater, c: ViewGroup?, b: Bundle?): View? =
 		i.inflate(R.layout.fragment_login, container, false)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
-		model = activity?.run {
-			ViewModelProvider(this).get(LoginViewModel::class.java)
-		}
+		Squirrel.dagger.inject(this)
 
 		editTextFilePath.setOnClickListener {
 			openFile()
@@ -55,13 +59,13 @@ class LoginFragment : Fragment() {
 
 		editTextPassword.setOnEditorActionListener { _, actionId, _ ->
 			if (actionId == EditorInfo.IME_ACTION_DONE) {
-				unlock(editTextPassword.text.toString())
+				unlock(editTextPassword.text.toString(), MANUAL_LOGIN)
 				true
 			} else false
 		}
 
 		buttonLogin.setOnClickListener {
-			unlock(editTextPassword.text.toString())
+			unlock(editTextPassword.text.toString(), MANUAL_LOGIN)
 		}
 
 		floatingActionButton.setOnClickListener {
@@ -74,16 +78,14 @@ class LoginFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		activity?.run {
-			model?.selectedPath?.observe(this, Observer { path ->
-				editTextFilePath.setText(path)
+		model.selectedPath.observe(requireActivity(), Observer { path ->
+			editTextFilePath.setText(path)
 
-				if (model?.getFilePreferences()?.biometricsSaved == true) {
-					imageButtonFingerprint.visibility = View.VISIBLE
-					showBiometricPrompt()
-				} else imageButtonFingerprint.visibility = View.INVISIBLE
-			})
-		}
+			if (model.getFilePreferences().biometricsSaved) {
+				imageButtonFingerprint.visibility = View.VISIBLE
+				showBiometricPrompt()
+			} else imageButtonFingerprint.visibility = View.INVISIBLE
+		})
 	}
 
 	override fun onRequestPermissionsResult(code: Int, perms: Array<String>, results: IntArray) {
@@ -101,11 +103,11 @@ class LoginFragment : Fragment() {
 		if (path != null && resultCode == Activity.RESULT_OK) {
 			when (requestCode) {
 				OPEN_DOCUMENTE_CODE -> {
-					model?.selectedPath?.value = resultData.data.toString()
+					model.selectedPath.value = resultData.data.toString()
 				}
 				CREATE_DOCUMENT_CODE -> {
-					model?.selectedPath?.value = resultData.data.toString()
-					model?.newFile = true
+					model.selectedPath.value = resultData.data.toString()
+					model.newFile = true
 					buttonLogin.setText(R.string.create_label)
 				}
 			}
@@ -113,8 +115,8 @@ class LoginFragment : Fragment() {
 	}
 
 	private fun openFile() {
-		model?.newFile = false
-		if (activity?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+		model.newFile = false
+		if (requireActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 			val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
 				addCategory(Intent.CATEGORY_OPENABLE)
 				type = "*/*"
@@ -131,7 +133,7 @@ class LoginFragment : Fragment() {
 	}
 
 	private fun createFile() {
-		if (activity?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+		if (requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 			val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
 				addCategory(Intent.CATEGORY_OPENABLE)
 				type = "text/plain"
@@ -150,49 +152,46 @@ class LoginFragment : Fragment() {
 
 	@TargetApi(Build.VERSION_CODES.P)
 	private fun showBiometricPrompt() {
-		activity?.let {
-			BiometricPrompt.Builder(it)
-				.setTitle(getText(R.string.biometric_title))
-				.setSubtitle(getText(R.string.biometric_subtitle))
-				.setDescription(getText((R.string.biometric_unlock_description)))
-				.setNegativeButton(getText(R.string.biometric_cancel),
-					it.mainExecutor,
-					DialogInterface.OnClickListener { _, _ -> }).build()
-				.authenticate(CancellationSignal(),
-					it.mainExecutor,
-					object : BiometricPrompt.AuthenticationCallback() {
-						override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
-							super.onAuthenticationSucceeded(result)
-							Squirrel.analytics.logEvent(
-								FirebaseAnalytics.Event.LOGIN,
-								bundleOf(FirebaseAnalytics.Param.CONTENT_TYPE to "biometrics")
-							)
-							unlock(model?.getFilePreferences()?.password ?: "")
-						}
-					})
-		}
+		BiometricPrompt.Builder(requireContext())
+			.setTitle(getText(R.string.biometric_title))
+			.setSubtitle(getText(R.string.biometric_subtitle))
+			.setDescription(getText((R.string.biometric_unlock_description)))
+			.setNegativeButton(getText(R.string.biometric_cancel),
+				requireActivity().mainExecutor,
+				DialogInterface.OnClickListener { _, _ -> }).build()
+			.authenticate(CancellationSignal(),
+				requireActivity().mainExecutor,
+				object : BiometricPrompt.AuthenticationCallback() {
+					override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
+						super.onAuthenticationSucceeded(result)
+						unlock(model.getFilePreferences().password, BIOMETRICS_LOGIN)
+					}
+				})
 	}
 
-	private fun unlock(password: String) {
-		model?.loadData(model?.selectedPath?.value, password, {
+	private fun unlock(password: String, type: String) {
+		model.loadData(model.selectedPath.value, password, {
 			editTextPassword.setText("")
-			persistData()
-
-			startActivity(
-				Intent(activity, MainActivity::class.java)
-					.putExtra("json", Gson().toJson(it))
-					.putExtra("uri", model?.selectedPath?.value)
-					.putExtra("password", password)
+			requireContext().contentResolver.takePersistableUriPermission(
+				Uri.parse(model.selectedPath.value),
+				FLAG_GRANT_READ_URI_PERMISSION or FLAG_GRANT_WRITE_URI_PERMISSION
 			)
+
+			Squirrel.analytics.logEvent(
+				FirebaseAnalytics.Event.LOGIN, bundleOf(
+					FirebaseAnalytics.Param.CONTENT_TYPE to type
+				)
+			)
+
+			(requireActivity().application as Squirrel).dataHolder = dataHolder {
+				data = it
+				this.password = password
+				uri = model.selectedPath.value ?: ""
+			}
+
+			startActivity(Intent(activity, MainActivity::class.java))
 		}, {
 			Snackbar.make(container, R.string.bad_password, Snackbar.LENGTH_SHORT).show()
 		})
-	}
-
-	private fun persistData() {
-		val uri = Uri.parse(model?.selectedPath?.value)
-		context?.contentResolver?.takePersistableUriPermission(
-			uri, FLAG_GRANT_READ_URI_PERMISSION or FLAG_GRANT_WRITE_URI_PERMISSION
-		)
 	}
 }

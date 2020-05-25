@@ -11,9 +11,14 @@ import com.layne.squirrel.framework.getValue
 
 class RenameDirectoryDialog(private val name: String) : DialogFragment() {
 
+	companion object {
+		fun build(name: String, block: (String) -> Unit) = RenameDirectoryDialog(name)
+			.setOnPositiveButtonClickListener(block)
+	}
+
 	private var positiveButtonClickListener: (String) -> Unit = {}
 
-	fun addPositiveButtonClick(l: (String) -> Unit): RenameDirectoryDialog {
+	fun setOnPositiveButtonClickListener(l: (String) -> Unit): RenameDirectoryDialog {
 		positiveButtonClickListener = l
 		return this
 	}

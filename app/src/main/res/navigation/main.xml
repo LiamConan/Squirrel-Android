@@ -3,41 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/directoryListFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.layne.squirrel.presentation.main.directories.DirectoriesFragment"
+        android:id="@+id/directoryListFragment"
+        android:name="com.layne.squirrel.presentation.main.directories.DirectoryListFragment"
         android:label="DirectoryFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_list_directory">
         <action
             android:id="@+id/openDirectory"
-            app:destination="@id/directoryFragment" />
+            app:destination="@id/accountListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/directoryFragment"
-        android:name="com.layne.squirrel.presentation.main.accounts.AccountsFragment"
+        android:id="@+id/accountListFragment"
+        android:name="com.layne.squirrel.presentation.main.accounts.AccountListFragment"
         android:label="KeyListFragment"
-        tools:layout="@layout/fragment_directory">
+        tools:layout="@layout/fragment_list_account">
         <action
             android:id="@+id/openAccount"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/keyListFragment" />
         <argument
             android:name="directoryPosition"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/accountFragment"
-        android:name="com.layne.squirrel.presentation.main.keys.KeysFragment"
+        android:id="@+id/keyListFragment"
+        android:name="com.layne.squirrel.presentation.main.keys.KeyListFragment"
         android:label="KeyFragment"
-        tools:layout="@layout/fragment_account">
+        tools:layout="@layout/fragment_list_key">
         <argument
             android:name="directoryPosition"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <argument
             android:name="accountPosition"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
 </navigation>

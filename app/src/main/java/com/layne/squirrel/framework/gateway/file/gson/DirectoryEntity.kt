@@ -7,16 +7,16 @@ data class DirectoryEntity(
 	@SerializedName("name")
 	var title: String,
 	@SerializedName("keys")
-	var accounts: MutableList<AccountEntity>
+	var accounts: List<AccountEntity>
 ) {
 	companion object {
 		fun build(directory: Directory): DirectoryEntity {
 			return DirectoryEntity(
 				directory.title,
-				directory.accounts.map { AccountEntity.build(it) }.toMutableList()
+				directory.accounts.map { AccountEntity.build(it) }
 			)
 		}
 	}
 
-	fun toDirectory(): Directory = Directory(title, accounts.map { it.toAccount() }.toMutableList())
+	fun toDirectory(): Directory = Directory(title, accounts.map { it.toAccount() })
 }

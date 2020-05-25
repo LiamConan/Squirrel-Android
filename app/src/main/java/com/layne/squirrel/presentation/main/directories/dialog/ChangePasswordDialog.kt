@@ -16,18 +16,14 @@ class ChangePasswordDialog : DialogFragment() {
 	companion object {
 		const val ARG_PASSWORD = "password"
 
-		fun getInstance(password: String): ChangePasswordDialog {
-			return ChangePasswordDialog().withArgs(
-				bundleOf(
-					ARG_PASSWORD to password
-				)
-			) as ChangePasswordDialog
-		}
+		fun build(password: String, block: (String) -> Unit) = ChangePasswordDialog()
+			.withArgs<ChangePasswordDialog>(bundleOf(ARG_PASSWORD to password))
+			.setOnPositiveButtonClickListener(block)
 	}
 
 	private var positiveButtonClickListener: (String) -> Unit = {}
 
-	fun addPositiveButtonClick(l: (String) -> Unit): ChangePasswordDialog {
+	fun setOnPositiveButtonClickListener(l: (String) -> Unit): ChangePasswordDialog {
 		positiveButtonClickListener = l
 		return this
 	}
@@ -46,7 +42,7 @@ class ChangePasswordDialog : DialogFragment() {
 			.setView(dialogView)
 			.setIcon(R.drawable.ic_folder)
 			.setPositiveButton(getString(R.string.validate)) { _, _ ->
-				val password = arguments?.getString(ARG_PASSWORD)
+				val password = requireArguments().getString(ARG_PASSWORD)
 				val actual = editTextActualPassword.getValue()
 				val newPassword = editTextNewPassword.getValue()
 				val confirmation = editTextConfirmation.getValue()

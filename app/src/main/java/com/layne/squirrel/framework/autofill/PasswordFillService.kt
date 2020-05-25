@@ -9,7 +9,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.layne.squirrel.R
-import com.layne.squirrel.core.domain.Directory
+import com.layne.squirrel.core.domain.Data
 import com.layne.squirrel.framework.Squirrel
 import com.layne.squirrel.framework.interactor.KeysInteractor
 import com.layne.squirrel.framework.interactor.PreferencesInteractor
@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+
 
 @TargetApi(Build.VERSION_CODES.O)
 class PasswordFillService : AutofillService(), CoroutineScope by MainScope() {
@@ -39,7 +40,7 @@ class PasswordFillService : AutofillService(), CoroutineScope by MainScope() {
 		val path = runBlocking { preferences.getFilePath() }
 		val isPasswordSaved = runBlocking { preferences.getFilePreferences(path).passwordSaved }
 		val structure: AssistStructure = request.fillContexts.last().structure
-		val parsedStructure = ParsedStructureFactory(structure).build()
+		val parsedStructure = FieldFinder(structure).parsedStructure
 
 		if (!isPasswordSaved || parsedStructure == null)
 			callback.onSuccess(null)
@@ -51,13 +52,18 @@ class PasswordFillService : AutofillService(), CoroutineScope by MainScope() {
 	override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
 		val context: List<FillContext> = request.fillContexts
 		val structure: AssistStructure = context[context.size - 1].structure
+		val applicationName =
+			applicationContext.packageManager.getNameFromPackage(structure.activityComponent.packageName)
 
-		if (request.clientState == null)
+		if (request.clientState == null) {
 			Toast.makeText(
 				this,
-				getString(R.string.no_data_provided, structure.activityComponent.packageName),
+				getString(R.string.no_data_provided, applicationName),
 				Toast.LENGTH_LONG
 			).show()
+		}
+
+		// TODO: Save the new password in the file
 
 		callback.onSuccess()
 	}
@@ -65,19 +71,17 @@ class PasswordFillService : AutofillService(), CoroutineScope by MainScope() {
 	private fun fetchUserData(structure: AssistStructure): List<UserData> {
 		val path = runBlocking { preferences.getFilePath() }
 		val preferences = runBlocking { preferences.getFilePreferences(path) }
-		val keys: List<Directory> = runBlocking {
-			keysInteractor.getKeys(path, preferences.password) ?: listOf()
-		}
-		val keyword = structure.activityComponent.packageName
-		val res = mutableListOf<UserData>()
+		val data: Data? = runBlocking { keysInteractor.getKeys(path, preferences.password) }
+		val applicationName =
+			applicationContext.packageManager.getNameFromPackage(structure.activityComponent.packageName)
 
-		keysInteractor.searchKeys(keys, keyword).forEach { account ->
-			account.keys.forEach {
-				res.add(UserData(it.username, it.password))
-			}
-		}
-
-		return res
+		return data?.let {
+			keysInteractor.searchKeys(it, applicationName).map { account ->
+				account.keys.map { key ->
+					UserData(key.username, key.password)
+				}
+			}.flatten()
+		} ?: listOf()
 	}
 
 	private fun buildPresentation(text: String): RemoteViews {

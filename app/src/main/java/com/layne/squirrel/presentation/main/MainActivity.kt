@@ -1,65 +1,65 @@
 package com.layne.squirrel.presentation.main
 
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.layne.squirrel.R
-import com.layne.squirrel.core.domain.Directory
+import com.layne.squirrel.framework.Squirrel
+import com.layne.squirrel.framework.di.DaggerViewModelFactory
+import com.layne.squirrel.framework.findNavController
+import com.layne.squirrel.framework.requestAutofillService
+import com.layne.squirrel.framework.show
+import com.layne.squirrel.presentation.main.accounts.AccountListFragmentDirections
 import com.layne.squirrel.presentation.main.directories.dialog.UseAutofillServiceDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-	private var model: MainViewModel? = null
-	var fab: FloatingActionButton? = null
-	var appBar: BottomAppBar? = null
+	@Inject
+	lateinit var viewModelFactory: DaggerViewModelFactory
+	private val model by viewModels<MainViewModel> { viewModelFactory }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		Squirrel.dagger.inject(this)
 		setContentView(R.layout.activity_main)
 		setSupportActionBar(bottomAppBar)
-		appBar = bottomAppBar
 
-		model = ViewModelProvider(this).get(MainViewModel::class.java)
-		fab = floatingActionButton
-
-		val json = intent.getStringExtra("json") ?: "{}"
-		model?.uri = Uri.parse(intent.getStringExtra("uri"))
-		model?.password = intent.getStringExtra("password") ?: ""
-
-		model?.data?.value =
-			Gson().fromJson(json, object : TypeToken<ArrayList<Directory?>?>() {}.type)
-
-		model?.data?.observe(this, Observer {
-			model?.saveData()
-		})
-
-		model?.isNeededToAskForAutofill {
-			if (it) UseAutofillServiceDialog{
-				model?.setAutofillJustAsked()
-				val uri: Uri = Uri.parse("package:$packageName")
-				val i = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE, uri)
-				startActivityForResult(i, UseAutofillServiceDialog.ACTION_REQUEST_AUTOFILL)
-			}.show(this)
-		}
-	}
-
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		if (item.itemId == android.R.id.home) {
-			onBackPressed()
-			return true
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			model.isNeededToAskForAutofill {
+				show(UseAutofillServiceDialog.build {
+					model.setAutofillJustAsked()
+					requestAutofillService()
+				})
+			}
 		}
 
-		return super.onOptionsItemSelected(item)
+		findNavController(R.id.fragmentContainer).addOnDestinationChangedListener { controller, destination, args ->
+			when (destination.id) {
+				R.id.directoryListFragment -> {
+					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+					bottomAppBar.performShow()
+				}
+				R.id.accountListFragment   -> {
+					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+					floatingActionButton.setOnClickListener {
+						args?.getInt("directoryPosition")?.let { pos ->
+							controller.navigate(AccountListFragmentDirections.openAccount(pos, -1))
+						}
+					}
+				}
+				R.id.keyListFragment       -> {
+					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+					bottomAppBar.performShow()
+					floatingActionButton.setOnClickListener {
+					}
+				}
+			}
+		}
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -68,7 +68,13 @@ class MainActivity : AppCompatActivity() {
 		if (requestCode == UseAutofillServiceDialog.ACTION_REQUEST_AUTOFILL
 			&& resultCode == RESULT_OK
 		) {
-			model?.rememberPassword()
+			model.rememberPassword()
+		}
+	}
+
+	fun setFabOnClickListener(block: () -> Unit) {
+		floatingActionButton.setOnClickListener {
+			block()
 		}
 	}
 }

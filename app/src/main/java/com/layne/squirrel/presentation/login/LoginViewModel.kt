@@ -2,7 +2,7 @@ package com.layne.squirrel.presentation.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.layne.squirrel.core.domain.Directory
+import com.layne.squirrel.core.domain.Data
 import com.layne.squirrel.core.domain.FilePreferences
 import com.layne.squirrel.framework.Squirrel
 import com.layne.squirrel.framework.interactor.KeysInteractor
@@ -13,16 +13,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class LoginViewModel : ViewModel(), CoroutineScope by MainScope() {
+class LoginViewModel @Inject constructor() : ViewModel(), CoroutineScope by MainScope() {
 
 	@Inject
 	lateinit var keysInteractor: KeysInteractor
+
 	@Inject
 	lateinit var preferencesInteractor: PreferencesInteractor
 
 	var newFile = false
 	var selectedPath: MutableLiveData<String> = MutableLiveData()
-	var preferences: FilePreferences? = null
+	private var preferences: FilePreferences? = null
 
 	init {
 		Squirrel.dagger.inject(this)
@@ -44,17 +45,17 @@ class LoginViewModel : ViewModel(), CoroutineScope by MainScope() {
 	fun loadData(
 		path: String?,
 		password: String?,
-		success: (MutableList<Directory>) -> Unit,
+		success: (Data) -> Unit,
 		fail: () -> Unit
 	) {
 		if (path != null && password != null) {
 			if (newFile) {
 				newFile = false
-				success(mutableListOf())
+				success(Data(mutableListOf(), mutableListOf()))
 			} else {
 				launch {
 					try {
-						keysInteractor.getKeys(path, password)?.toMutableList()?.let {
+						keysInteractor.getKeys(path, password)?.let {
 							preferencesInteractor.saveFilePath(path)
 							success(it)
 						}

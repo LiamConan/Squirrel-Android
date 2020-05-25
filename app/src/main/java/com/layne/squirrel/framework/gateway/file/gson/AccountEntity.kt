@@ -9,17 +9,17 @@ data class AccountEntity(
 	@SerializedName("date")
 	var date: String,
 	@SerializedName("subkeys")
-	var keys: MutableList<KeyEntity>
+	var keys: List<KeyEntity>
 ) {
 	companion object {
 		fun build(account: Account): AccountEntity {
 			return AccountEntity(
 				account.title,
 				account.date,
-				account.keys.map { KeyEntity.build(it) }.toMutableList()
+				account.keys.map { KeyEntity.build(it) }
 			)
 		}
 	}
 
-	fun toAccount(): Account = Account(title, date, keys.map { it.toKey() }.toMutableList())
+	fun toAccount(): Account = Account(title, date, keys.map { it.toKey() })
 }

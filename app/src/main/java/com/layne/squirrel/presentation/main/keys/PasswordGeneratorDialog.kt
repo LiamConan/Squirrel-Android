@@ -11,10 +11,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.layne.squirrel.R
-import com.layne.squirrel.framework.Squirrel
 import com.layne.squirrel.presentation.main.MainViewModel
 
 class PasswordGeneratorDialog : DialogFragment() {
+
+	companion object {
+
+		const val MIN_PASSWORD_SIZE = 1
+		const val MAX_PASSWORD_SIZE = 1024
+
+		fun show(block: (String) -> Unit) = PasswordGeneratorDialog()
+			.setOnPositiveButtonClickListener(block)
+	}
 
 	private var model: MainViewModel? = null
 	private var numberPicker: NumberPicker? = null
@@ -27,8 +35,9 @@ class PasswordGeneratorDialog : DialogFragment() {
 	private var editTextPassword: EditText? = null
 	private var positiveClickListener: (String) -> Unit = {}
 
-	init {
-		Squirrel.dagger.inject(this)
+	fun setOnPositiveButtonClickListener(l: (String) -> Unit): PasswordGeneratorDialog {
+		positiveClickListener = l
+		return this
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,8 +46,8 @@ class PasswordGeneratorDialog : DialogFragment() {
 		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
 		numberPicker = view.findViewById(R.id.numberPicker)
-		numberPicker?.minValue = 1
-		numberPicker?.maxValue = 1024
+		numberPicker?.minValue = MIN_PASSWORD_SIZE
+		numberPicker?.maxValue = MAX_PASSWORD_SIZE
 		checkBoxLowercase = view.findViewById(R.id.checkBoxLowercase)
 		checkBoxUppercase = view.findViewById(R.id.checkBoxUppercase)
 		checkBoxNumbers = view.findViewById(R.id.checkBoxNumbers)
@@ -75,11 +84,6 @@ class PasswordGeneratorDialog : DialogFragment() {
 				)
 			else editTextPassword?.error = getText(R.string.mustChooseOneOption)
 		}
-	}
-
-	fun setOnPositiveButtonClickListener(l: (String) -> Unit): PasswordGeneratorDialog {
-		positiveClickListener = l
-		return this
 	}
 
 	private fun isFormValid() = checkBoxLowercase?.isChecked == true

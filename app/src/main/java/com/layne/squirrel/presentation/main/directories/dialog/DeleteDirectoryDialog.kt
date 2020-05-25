@@ -8,9 +8,14 @@ import com.layne.squirrel.R
 
 class DeleteDirectoryDialog : DialogFragment() {
 
+	companion object {
+		fun build(block: () -> Unit) = DeleteDirectoryDialog()
+			.setOnPositiveButtonClickListener(block)
+	}
+
 	private var positiveButtonClickListener: () -> Unit = {}
 
-	fun addPositiveButtonClick(l: () -> Unit): DeleteDirectoryDialog {
+	fun setOnPositiveButtonClickListener(l: () -> Unit): DeleteDirectoryDialog {
 		positiveButtonClickListener = l
 		return this
 	}
@@ -20,9 +25,7 @@ class DeleteDirectoryDialog : DialogFragment() {
 			.setTitle(getString(R.string.delete_dir))
 			.setIcon(R.drawable.ic_folder)
 			.setMessage(R.string.confirm_directory_deleting)
-			.setPositiveButton(getString(R.string.yes)) { _, _ ->
-				positiveButtonClickListener()
-			}
+			.setPositiveButton(getString(R.string.yes)) { _, _ -> positiveButtonClickListener() }
 			.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
 			.create()
 	}
