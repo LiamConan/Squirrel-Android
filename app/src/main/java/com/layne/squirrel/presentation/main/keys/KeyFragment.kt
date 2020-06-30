@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter.POSITION_NONE
@@ -48,15 +47,19 @@ class KeyFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		Squirrel.dagger.inject(this)
 
-		buttonCopyUsername.setOnClickListener { copyToClipboard((it as EditText).getValue()) }
+		buttonCopyUsername.setOnClickListener { copyToClipboard(editTextUsername.getValue()) }
 
-		buttonCopyEmail.setOnClickListener { copyToClipboard((it as EditText).getValue()) }
+		buttonCopyEmail.setOnClickListener { copyToClipboard(editTextEmail.getValue()) }
 
-		buttonKey.setOnClickListener { PasswordGeneratorDialog.show { editTextPassword.setText(it) } }
+		buttonKey.setOnClickListener {
+			show(PasswordGeneratorDialog.build {
+				editTextPassword.setText(it)
+			})
+		}
 
-		buttonCopyPassword.setOnClickListener { copyToClipboard((it as EditText).getValue()) }
+		buttonCopyPassword.setOnClickListener { copyToClipboard(editTextPassword.getValue()) }
 
-		buttonCopyUrl.setOnClickListener {
+		buttonGotoUrl.setOnClickListener {
 			val url = editTextUrl.getUrl()
 			if (url.isEmpty())
 				Snackbar.make(container, getText(R.string.empty_url), LENGTH_SHORT).show()

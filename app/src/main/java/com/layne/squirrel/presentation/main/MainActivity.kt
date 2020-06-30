@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity() {
 				R.id.keyListFragment       -> {
 					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
 					bottomAppBar.performShow()
-					floatingActionButton.setOnClickListener {
-					}
 				}
 			}
 		}

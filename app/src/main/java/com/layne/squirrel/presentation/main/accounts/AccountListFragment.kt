@@ -107,8 +107,9 @@ class AccountListFragment : Fragment() {
 						viewAdapter?.notifyItemInserted(position)
 						viewAdapter?.notifyItemRangeChanged(position, itemCount)
 					}.show()
-
-				model.deleteAccount(dirIndex, position)
+				viewAdapter?.updateData(
+					model.deleteAccount(dirIndex, position).directories[dirIndex].accounts
+				)
 			}
 		}
 

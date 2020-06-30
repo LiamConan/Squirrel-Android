@@ -96,9 +96,8 @@ class MainViewModel @Inject constructor(
 		data = keysInteractor.swapAccounts(data, directoryIndex, first, second)
 	}
 
-	fun deleteAccount(directoryIndex: Int, accountIndex: Int) {
-		data = keysInteractor.deleteAccount(data, directoryIndex, accountIndex)
-	}
+	fun deleteAccount(directoryIndex: Int, accountIndex: Int) =
+		keysInteractor.deleteAccount(data, directoryIndex, accountIndex).also { data = it }
 
 	fun deleteKey(dirIndex: Int, accountIndex: Int, keyIndex: Int) {
 		data = keysInteractor.deleteKey(data, dirIndex, accountIndex, keyIndex)

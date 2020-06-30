@@ -58,6 +58,10 @@ class AccountAdapter(private var items: List<Account>) :
 		notifyItemRangeChanged(position, itemCount)
 	}
 
+	fun updateData(data: List<Account>) {
+		items = data
+	}
+
 	fun setOnItemClickListener(l: (Int) -> Unit) {
 		itemClickListener = l
 	}

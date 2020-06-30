@@ -9,9 +9,12 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.layne.squirrel.R
+import com.layne.squirrel.framework.Squirrel
+import com.layne.squirrel.framework.di.DaggerViewModelFactory
 import com.layne.squirrel.presentation.main.MainViewModel
+import javax.inject.Inject
 
 class PasswordGeneratorDialog : DialogFragment() {
 
@@ -20,11 +23,14 @@ class PasswordGeneratorDialog : DialogFragment() {
 		const val MIN_PASSWORD_SIZE = 1
 		const val MAX_PASSWORD_SIZE = 1024
 
-		fun show(block: (String) -> Unit) = PasswordGeneratorDialog()
+		fun build(block: (String) -> Unit) = PasswordGeneratorDialog()
 			.setOnPositiveButtonClickListener(block)
 	}
 
-	private var model: MainViewModel? = null
+	@Inject
+	lateinit var viewModelFactory: DaggerViewModelFactory
+	private val model by viewModels<MainViewModel>({ requireActivity() }) { viewModelFactory }
+
 	private var numberPicker: NumberPicker? = null
 	private var checkBoxLowercase: CheckBox? = null
 	private var checkBoxUppercase: CheckBox? = null
@@ -41,9 +47,8 @@ class PasswordGeneratorDialog : DialogFragment() {
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		Squirrel.dagger.inject(this)
 		val view = View.inflate(context, R.layout.dialog_password_generator, null)
-
-		model = ViewModelProvider(this).get(MainViewModel::class.java)
 
 		numberPicker = view.findViewById(R.id.numberPicker)
 		numberPicker?.minValue = MIN_PASSWORD_SIZE
@@ -73,7 +78,7 @@ class PasswordGeneratorDialog : DialogFragment() {
 			editTextPassword?.error = null
 			if (isFormValid())
 				editTextPassword?.setText(
-					model?.generatePassword(
+					model.generatePassword(
 						numberPicker?.value ?: 1,
 						checkBoxLowercase?.isChecked == true,
 						checkBoxUppercase?.isChecked == true,

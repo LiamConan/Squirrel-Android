@@ -3,11 +3,9 @@ package com.layne.squirrel.presentation.main.keys
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.layne.squirrel.R
 import com.layne.squirrel.core.domain.Account
 import com.layne.squirrel.framework.*
@@ -42,12 +40,7 @@ class KeyListFragment : Fragment() {
 		val keys = if (dirIndex !in model.data.directories.indices
 			|| accountIndex !in model.data.directories[dirIndex].accounts.indices
 		) {
-			Squirrel.analytics.logEvent(
-				FirebaseAnalytics.Event.VIEW_ITEM_LIST,
-				bundleOf("dir_index" to dirIndex, "account_index" to accountIndex)
-			)
-			groupError.visibility = View.VISIBLE
-			listOf()
+			listOf(key { })
 		} else {
 			editTextTitle.setText(model.data.directories[dirIndex].accounts[accountIndex].title)
 			model.data.directories[dirIndex].accounts[accountIndex].keys
