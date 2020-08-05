@@ -2,11 +2,14 @@ package com.layne.squirrel.framework.gateway
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.google.gson.Gson
 import com.layne.squirrel.core.data.KeysDataSource
 import com.layne.squirrel.core.domain.Data
 import com.layne.squirrel.framework.CryptUtil
 import com.layne.squirrel.framework.gateway.file.gson.DataEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.*
 
 class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
@@ -32,9 +35,11 @@ class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 					}
 				}
 			} catch (e: FileNotFoundException) {
-				e.printStackTrace()
+				Log.e("KeysLocalFileDataSource", "read:", e)
 			} catch (e: IOException) {
-				e.printStackTrace()
+				Log.e("KeysLocalFileDataSource", "read:", e)
+			} catch (e: SecurityException) {
+				Log.e("KeysLocalFileDataSource", "read:", e)
 			}
 		}
 
@@ -43,11 +48,13 @@ class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 
 	override suspend fun write(data: Data, uri: String, password: String) {
 		try {
-			context.contentResolver.openFileDescriptor(Uri.parse(uri), "rwt")?.use {
-				FileOutputStream(it.fileDescriptor).use { fos ->
-					val entity = DataEntity.build(data)
-					CryptUtil.encrypt(Gson().toJson(entity), password)?.let { content ->
-						fos.write(content.toByteArray())
+			withContext(Dispatchers.IO) {
+				context.contentResolver.openFileDescriptor(Uri.parse(uri), "rwt")?.use {
+					FileOutputStream(it.fileDescriptor).use { fos ->
+						val entity = DataEntity.build(data)
+						CryptUtil.encrypt(Gson().toJson(entity), password)?.let { content ->
+							fos.write(content.toByteArray())
+						}
 					}
 				}
 			}
