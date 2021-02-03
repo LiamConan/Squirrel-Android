@@ -61,6 +61,10 @@ class AccountListFragment : Fragment() {
 			model.data.directories[dirIndex].accounts
 		}
 
+		model.liveData.observe(viewLifecycleOwner, {
+			viewAdapter?.updateData(it.directories[dirIndex].accounts)
+		})
+
 		viewAdapter = AccountAdapter(accounts).apply {
 			setOnItemClickListener {
 				val action = AccountListFragmentDirections.openAccount(dirIndex, it)
@@ -107,9 +111,7 @@ class AccountListFragment : Fragment() {
 						viewAdapter?.notifyItemInserted(position)
 						viewAdapter?.notifyItemRangeChanged(position, itemCount)
 					}.show()
-				viewAdapter?.updateData(
-					model.deleteAccount(dirIndex, position).directories[dirIndex].accounts
-				)
+				model.deleteAccount(dirIndex, position)
 			}
 		}
 

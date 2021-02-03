@@ -1,6 +1,5 @@
 package com.layne.squirrel.presentation.creditcards
 
-import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ class CreditCardAdapter(private var cards: List<CreditCard>) :
 	RecyclerView.Adapter<CreditCardAdapter.ViewHolder>(),
 	ItemTouchHelperAdapter {
 
-	private var itemClickListener: (View, Int) -> Unit = { _, _ ->}
+	private var itemClickListener: (View, Int) -> Unit = { _, _ -> }
 	private var dragListener: (RecyclerView.ViewHolder) -> Unit = {}
 	private var onItemMoveListener: (Int, Int) -> Unit = { _, _ -> }
 	private var onItemDismissListener: (Int) -> Unit = { }
@@ -21,7 +20,6 @@ class CreditCardAdapter(private var cards: List<CreditCard>) :
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
 		ViewHolder(CreditCardView(parent.context))
 
-	@SuppressLint("ClickableViewAccessibility")
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		holder.view.setOnClickListener { itemClickListener(it, holder.adapterPosition) }
 		holder.view.bindData(cards[position])

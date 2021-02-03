@@ -15,10 +15,9 @@ import java.io.*
 class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 
 	override suspend fun read(path: String, password: String): Data? {
-		val uri = Uri.parse(path)
-		uri?.let {
+		Uri.parse(path)?.let {
 			try {
-				context.contentResolver?.openFileDescriptor(uri, "r")?.use { fd ->
+				context.contentResolver?.openFileDescriptor(it, "r")?.use { fd ->
 					FileInputStream(fd.fileDescriptor).use { fis ->
 						val reader = BufferedReader(InputStreamReader(fis))
 						val builder = StringBuilder()

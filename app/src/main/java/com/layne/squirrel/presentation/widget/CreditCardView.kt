@@ -69,8 +69,12 @@ class CreditCardView @JvmOverloads constructor(
 		layoutParams = params
 		radius = RADIUS
 		elevation = ELEVATION
-		imageViewHandler.setOnTouchListener { _, event ->
-			(onChipTouchListener != null).also { onChipTouchListener?.invoke(event) }
+		imageViewHandler.setOnTouchListener { view, event ->
+			if (event.action == MotionEvent.ACTION_DOWN)
+				(onChipTouchListener != null).also { onChipTouchListener?.invoke(event) }
+			else if (event.action == MotionEvent.ACTION_UP)
+				view.performClick()
+			true
 		}
 	}
 

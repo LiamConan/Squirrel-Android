@@ -37,7 +37,7 @@ class KeysRepositoryTest {
 		val keywork = "airbnb"
 
 		// When
-		val keys = interactor.searchKeys(data.directories, keywork)
+		val keys = interactor.searchKeys(data, keywork)
 
 		// Then
 		Assert.assertEquals(1, keys.size)

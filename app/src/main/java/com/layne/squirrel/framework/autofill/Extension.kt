@@ -20,7 +20,7 @@ private fun AssistStructure.ViewNode.pickFieldsByExploringTree(): List<AssistStr
 
 @TargetApi(Build.VERSION_CODES.O)
 private fun AssistStructure.ViewNode.isEditText(): Boolean =
-	autofillHints != null || (className != null && className.contains("EditText"))
+	autofillHints != null || (className != null && className.toString().contains("EditText"))
 
 fun PackageManager.getNameFromPackage(packageName: String): String = runCatching {
 	getApplicationInfo(packageName, 0)
@@ -31,7 +31,7 @@ fun PackageManager.getNameFromPackage(packageName: String): String = runCatching
 fun AssistStructure.containsLoginForm(): Boolean = getWindowNodeAt(0).rootViewNode.isLoginForm()
 
 private fun AssistStructure.ViewNode.isLoginForm(): Boolean {
-	return if (idEntry != null && idEntry.containsOneOf("login", "connection", "connexion"))
+	return if (idEntry != null && idEntry.toString().containsOneOf("login", "connection", "connexion"))
 		true
 	else
 		(0 until childCount).map {

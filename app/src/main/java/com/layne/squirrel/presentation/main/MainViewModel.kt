@@ -1,5 +1,6 @@
 package com.layne.squirrel.presentation.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.layne.squirrel.core.domain.*
 import com.layne.squirrel.framework.Squirrel
@@ -20,12 +21,13 @@ class MainViewModel @Inject constructor(
 	@Inject
 	lateinit var preferencesInteractor: PreferencesInteractor
 
+	val liveData: MutableLiveData<Data> = MutableLiveData()
 	var data: Data
-		get() = dataHolder.data
+		get() = liveData.value!!
 		set(value) {
-			dataHolder.data = value
-			saveData()
+			liveData.value = value
 		}
+
 	var password: String
 		get() = dataHolder.password
 		set(value) {
@@ -38,12 +40,11 @@ class MainViewModel @Inject constructor(
 		launch {
 			preferences = preferencesInteractor.getFilePreferences(dataHolder.uri)
 		}
+		liveData.value = dataHolder.data
 	}
 
 	private fun saveData() {
-		launch {
-			keysInteractor.saveKeys(dataHolder.data, dataHolder.uri, dataHolder.password)
-		}
+		launch { keysInteractor.saveKeys(dataHolder.data, dataHolder.uri, dataHolder.password) }
 	}
 
 	fun changePassword(newPassword: String) {
@@ -71,21 +72,24 @@ class MainViewModel @Inject constructor(
 		}
 	}
 
-	fun addDirectory(directory: Directory, i: Int? = null): Data =
-		keysInteractor.addDirectory(data, directory, i).also { data = it }
+	fun addDirectory(directory: Directory, i: Int? = null) {
+		data = keysInteractor.addDirectory(data, directory, i)
+	}
 
-	fun renameDirectory(i: Int, title: String): Data =
-		keysInteractor.renameDirectory(data, i, title).also { data = it }
+	fun renameDirectory(i: Int, title: String) {
+		data = keysInteractor.renameDirectory(data, i, title)
+	}
 
-	fun deleteDirectory(i: Int): Data =
-		keysInteractor.deleteDirectory(data, i).also { data = it }
+	fun deleteDirectory(i: Int) {
+		data = keysInteractor.deleteDirectory(data, i)
+	}
 
 	fun swapDirectories(from: Int, to: Int) {
 		data = keysInteractor.swapDirectories(data, from, to)
 	}
 
-	fun addAccount(directoryIndex: Int, account: Account, i: Int? = null) {
-		data = keysInteractor.addAccount(data, account, directoryIndex, i)
+	fun addAccount(directoryIndex: Int, account: Account, insertIndex: Int? = null) {
+		data = keysInteractor.addAccount(data, account, directoryIndex, insertIndex)
 	}
 
 	fun updateAccount(directoryIndex: Int, accountIndex: Int, account: Account) {
@@ -96,8 +100,9 @@ class MainViewModel @Inject constructor(
 		data = keysInteractor.swapAccounts(data, directoryIndex, first, second)
 	}
 
-	fun deleteAccount(directoryIndex: Int, accountIndex: Int) =
-		keysInteractor.deleteAccount(data, directoryIndex, accountIndex).also { data = it }
+	fun deleteAccount(directoryIndex: Int, accountIndex: Int) {
+		data = keysInteractor.deleteAccount(data, directoryIndex, accountIndex)
+	}
 
 	fun deleteKey(dirIndex: Int, accountIndex: Int, keyIndex: Int) {
 		data = keysInteractor.deleteKey(data, dirIndex, accountIndex, keyIndex)

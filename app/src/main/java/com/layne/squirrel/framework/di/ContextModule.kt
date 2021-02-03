@@ -1,7 +1,6 @@
 package com.layne.squirrel.framework.di
 
 import android.app.Application
-import android.content.ClipboardManager
 import android.content.Context
 import com.layne.squirrel.core.domain.DataHolder
 import com.layne.squirrel.framework.Squirrel

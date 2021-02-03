@@ -36,6 +36,10 @@ class DirectoryListFragment : Fragment() {
 		Squirrel.dagger.inject(this)
 		setHasOptionsMenu(true)
 
+		model.liveData.observe(viewLifecycleOwner, {
+			viewAdapter?.updateData(it.directories)
+		})
+
 		viewAdapter = DirectoryAdapter(model.data.directories).apply {
 			setOnItemClickListener {
 				NavHostFragment
@@ -45,27 +49,23 @@ class DirectoryListFragment : Fragment() {
 			setOnCreateContextMenuListener { menu, directory, position ->
 				menu.addWithOnClick(R.string.dir_rename) {
 					show(RenameDirectoryDialog.build(directory.title) {
-						viewAdapter?.updateData(model.renameDirectory(position, it).directories)
+						model.renameDirectory(position, it)
 					})
 				}
 				menu.addWithOnClick(R.string.dir_delete) {
-					show(DeleteDirectoryDialog.build {
-						viewAdapter?.updateData(model.deleteDirectory(position).directories)
-					})
+					show(DeleteDirectoryDialog.build { model.deleteDirectory(position) })
 				}
 			}
-			setOnItemMoveListener { from, to ->
-				model.swapDirectories(from, to)
-			}
+			setOnItemMoveListener { from, to -> model.swapDirectories(from, to) }
 			setOnItemDismissListener { i ->
 				val directory = model.data.directories[i]
 				Snackbar.make(container, getString(key_deleted, directory.title), LENGTH_LONG)
 					.setAction(R.string.cancel) {
-						viewAdapter?.updateData(model.addDirectory(directory, i).directories)
+						model.addDirectory(directory, i)
 						notifyItemInserted(i)
 						notifyItemRangeChanged(i, itemCount)
 					}.show()
-				viewAdapter?.updateData(model.deleteDirectory(i).directories)
+				model.deleteDirectory(i)
 			}
 		}
 
@@ -77,9 +77,7 @@ class DirectoryListFragment : Fragment() {
 
 		runMainActivity {
 			setFabOnClickListener {
-				show(CreateDirectoryDialog.build {
-					viewAdapter?.updateData(model.addDirectory(Directory(it)).directories)
-				})
+				show(CreateDirectoryDialog.build { model.addDirectory(Directory(it)) })
 			}
 		}
 	}
@@ -92,7 +90,7 @@ class DirectoryListFragment : Fragment() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
 		when (item.itemId) {
-			R.id.biometrics     -> {
+			R.id.biometrics -> {
 				if (model.isBiometricsEnabled())
 					show(CancelBiometricsDialog.build())
 				else
@@ -101,9 +99,7 @@ class DirectoryListFragment : Fragment() {
 			R.id.changePassword -> show(ChangePasswordDialog.build(model.password) {
 				model.changePassword(it)
 			})
-			R.id.creditCard     -> {
-				startActivity(Intent(activity, CreditCardActivity::class.java))
-			}
+			R.id.creditCard -> startActivity(Intent(activity, CreditCardActivity::class.java))
 		}
 
 		return true

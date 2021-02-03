@@ -42,6 +42,7 @@ class CreditCardFragment : Fragment() {
 
 		val index = requireArguments().getInt("creditCardPosition")
 		if (index > -1) {
+			creditCardView.transitionName = "creditCard"
 			goal = Goal.EDITION
 			cardIndex = index
 			creditCard = model.data.creditCards[index].copy()
