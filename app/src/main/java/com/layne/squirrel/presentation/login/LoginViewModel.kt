@@ -1,5 +1,6 @@
 package com.layne.squirrel.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.layne.squirrel.core.domain.Data
@@ -21,9 +22,9 @@ class LoginViewModel @Inject constructor() : ViewModel(), CoroutineScope by Main
 	@Inject
 	lateinit var preferencesInteractor: PreferencesInteractor
 
-	var newFile = false
-	var selectedPath: MutableLiveData<String> = MutableLiveData()
 	private var preferences: FilePreferences? = null
+	private var newFile = false
+	var selectedPath: MutableLiveData<String> = MutableLiveData()
 
 	init {
 		Squirrel.dagger.inject(this)
@@ -31,6 +32,16 @@ class LoginViewModel @Inject constructor() : ViewModel(), CoroutineScope by Main
 		launch {
 			selectedPath.postValue(preferencesInteractor.getFilePath())
 		}
+	}
+
+	fun openFile(path: String) {
+		newFile = false
+		selectedPath.value = path
+	}
+
+	fun createFile(path: String) {
+		newFile = true
+		selectedPath.value = path
 	}
 
 	fun getFilePreferences(): FilePreferences {
@@ -60,6 +71,7 @@ class LoginViewModel @Inject constructor() : ViewModel(), CoroutineScope by Main
 							success(it)
 						}
 					} catch (e: Exception) {
+						Log.e("LoginViewModel", "loadData", e)
 						fail()
 					}
 				}

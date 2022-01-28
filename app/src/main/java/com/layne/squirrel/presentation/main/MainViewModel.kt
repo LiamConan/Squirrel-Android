@@ -26,6 +26,7 @@ class MainViewModel @Inject constructor(
 		get() = liveData.value!!
 		set(value) {
 			liveData.value = value
+			dataHolder.data = value
 		}
 
 	var password: String
@@ -43,7 +44,7 @@ class MainViewModel @Inject constructor(
 		liveData.value = dataHolder.data
 	}
 
-	private fun saveData() {
+	fun saveData() {
 		launch { keysInteractor.saveKeys(dataHolder.data, dataHolder.uri, dataHolder.password) }
 	}
 
@@ -74,38 +75,47 @@ class MainViewModel @Inject constructor(
 
 	fun addDirectory(directory: Directory, i: Int? = null) {
 		data = keysInteractor.addDirectory(data, directory, i)
+		saveData()
 	}
 
 	fun renameDirectory(i: Int, title: String) {
 		data = keysInteractor.renameDirectory(data, i, title)
+		saveData()
 	}
 
 	fun deleteDirectory(i: Int) {
 		data = keysInteractor.deleteDirectory(data, i)
+		saveData()
 	}
 
 	fun swapDirectories(from: Int, to: Int) {
 		data = keysInteractor.swapDirectories(data, from, to)
+		saveData()
 	}
 
 	fun addAccount(directoryIndex: Int, account: Account, insertIndex: Int? = null) {
 		data = keysInteractor.addAccount(data, account, directoryIndex, insertIndex)
+		saveData()
 	}
 
 	fun updateAccount(directoryIndex: Int, accountIndex: Int, account: Account) {
 		data = keysInteractor.updateAccount(data, directoryIndex, accountIndex, account)
+		saveData()
 	}
 
 	fun swapAccounts(directoryIndex: Int, first: Int, second: Int) {
 		data = keysInteractor.swapAccounts(data, directoryIndex, first, second)
+		saveData()
 	}
 
 	fun deleteAccount(directoryIndex: Int, accountIndex: Int) {
 		data = keysInteractor.deleteAccount(data, directoryIndex, accountIndex)
+		saveData()
 	}
 
 	fun deleteKey(dirIndex: Int, accountIndex: Int, keyIndex: Int) {
 		data = keysInteractor.deleteKey(data, dirIndex, accountIndex, keyIndex)
+		saveData()
 	}
 
 	fun rememberPassword() {

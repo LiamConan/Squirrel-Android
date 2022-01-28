@@ -3,7 +3,6 @@ package com.layne.squirrel.presentation.login
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -20,7 +19,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.layne.squirrel.R
@@ -36,8 +34,8 @@ class LoginFragment : Fragment() {
 	companion object {
 		const val PERMISSION_STORAGE_CREATE = 1
 		const val PERMISSION_STORAGE_OPEN = 2
-		const val OPEN_DOCUMENTE_CODE = 1
-		const val CREATE_DOCUMENT_CODE = 2
+		const val OPEN_FILE = 1
+		const val CREATE_FILE = 2
 		const val MANUAL_LOGIN = "manual"
 		const val BIOMETRICS_LOGIN = "biometrics"
 	}
@@ -78,10 +76,9 @@ class LoginFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		model.selectedPath.observe(requireActivity(), Observer { path ->
+		model.selectedPath.observe(requireActivity(), { path ->
 			editTextFilePath.setText(path)
-
-			if (model.getFilePreferences().biometricsSaved) {
+			if (path.isNotEmpty() && model.getFilePreferences().biometricsSaved) {
 				imageButtonFingerprint.visibility = View.VISIBLE
 				showBiometricPrompt()
 			} else imageButtonFingerprint.visibility = View.INVISIBLE
@@ -89,10 +86,8 @@ class LoginFragment : Fragment() {
 	}
 
 	override fun onRequestPermissionsResult(code: Int, perms: Array<String>, results: IntArray) {
-		if (code == PERMISSION_STORAGE_CREATE)
-			createFile()
-		else if (code == PERMISSION_STORAGE_OPEN)
-			openFile()
+		if (code == PERMISSION_STORAGE_CREATE) createFile()
+		else if (code == PERMISSION_STORAGE_OPEN) openFile()
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -102,29 +97,19 @@ class LoginFragment : Fragment() {
 
 		if (path != null && resultCode == Activity.RESULT_OK) {
 			when (requestCode) {
-				OPEN_DOCUMENTE_CODE -> {
-					model.selectedPath.value = resultData.data.toString()
-				}
-				CREATE_DOCUMENT_CODE -> {
-					model.selectedPath.value = resultData.data.toString()
-					model.newFile = true
-					buttonLogin.setText(R.string.create_label)
-				}
+				OPEN_FILE -> model.openFile(resultData.data.toString())
+				CREATE_FILE -> model.createFile(resultData.data.toString())
 			}
 		}
 	}
 
 	private fun openFile() {
-		model.newFile = false
 		if (requireActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 			val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
 				addCategory(Intent.CATEGORY_OPENABLE)
 				type = "*/*"
 			}
-			startActivityForResult(
-				intent,
-				OPEN_DOCUMENTE_CODE
-			)
+			startActivityForResult(intent, OPEN_FILE)
 		} else
 			requestPermissions(
 				arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -136,13 +121,10 @@ class LoginFragment : Fragment() {
 		if (requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 			val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
 				addCategory(Intent.CATEGORY_OPENABLE)
-				type = "text/plain"
+				type = "*/*"
 				putExtra(Intent.EXTRA_TITLE, "keys.sq")
 			}
-			startActivityForResult(
-				intent,
-				CREATE_DOCUMENT_CODE
-			)
+			startActivityForResult(intent, CREATE_FILE)
 		} else
 			requestPermissions(
 				arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -158,7 +140,7 @@ class LoginFragment : Fragment() {
 			.setDescription(getText((R.string.biometric_unlock_description)))
 			.setNegativeButton(getText(R.string.biometric_cancel),
 				requireActivity().mainExecutor,
-				DialogInterface.OnClickListener { _, _ -> }).build()
+				{ _, _ -> }).build()
 			.authenticate(CancellationSignal(),
 				requireActivity().mainExecutor,
 				object : BiometricPrompt.AuthenticationCallback() {

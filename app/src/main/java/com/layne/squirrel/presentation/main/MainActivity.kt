@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
 					bottomAppBar.performShow()
 				}
-				R.id.accountListFragment   -> {
+				R.id.accountListFragment -> {
 					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
 					floatingActionButton.setOnClickListener {
 						args?.getInt("directoryPosition")?.let { pos ->
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 						}
 					}
 				}
-				R.id.keyListFragment       -> {
+				R.id.keyListFragment -> {
 					bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
 					bottomAppBar.performShow()
 				}

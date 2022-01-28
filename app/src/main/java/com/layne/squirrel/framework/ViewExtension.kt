@@ -3,7 +3,6 @@ package com.layne.squirrel.framework
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.ClipData
-import android.content.DialogInterface
 import android.content.Intent
 import android.hardware.biometrics.BiometricPrompt
 import android.net.Uri
@@ -125,8 +124,7 @@ fun Fragment.showBiometricPrompt(block: (BiometricPrompt.AuthenticationResult?) 
 				.setSubtitle(getText(R.string.biometric_subtitle))
 				.setDescription(getText((R.string.biometric_activation_description)))
 				.setNegativeButton(getText(R.string.biometric_cancel),
-					mainExecutor,
-					DialogInterface.OnClickListener { _, _ -> })
+					mainExecutor, { _, _ -> })
 				.build()
 				.authenticate(CancellationSignal(),
 					mainExecutor,

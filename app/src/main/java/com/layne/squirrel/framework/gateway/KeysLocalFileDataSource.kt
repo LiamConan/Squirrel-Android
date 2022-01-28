@@ -15,31 +15,34 @@ import java.io.*
 class KeysLocalFileDataSource(private val context: Context) : KeysDataSource {
 
 	override suspend fun read(path: String, password: String): Data? {
-		Uri.parse(path)?.let {
-			try {
-				context.contentResolver?.openFileDescriptor(it, "r")?.use { fd ->
-					FileInputStream(fd.fileDescriptor).use { fis ->
-						val reader = BufferedReader(InputStreamReader(fis))
-						val builder = StringBuilder()
-						var line = reader.readLine()
+		val uri = Uri.parse(path)
+		try {
+			context.contentResolver?.openFileDescriptor(uri, "r")?.use { fd ->
+				FileInputStream(fd.fileDescriptor).use { fis ->
+					val reader = BufferedReader(InputStreamReader(fis))
+					val builder = StringBuilder()
+					var line = reader.readLine()
 
-						while (line != null) {
-							builder.append(line)
-							line = reader.readLine()
-						}
-
-						val decrypted = CryptUtil.decrypt(builder.toString(), password)
-
-						return Gson().fromJson(decrypted, DataEntity::class.java).toData()
+					while (line != null) {
+						builder.append(line)
+						line = reader.readLine()
 					}
+
+					Log.d("KeysLocalFileDataSource", builder.toString())
+					val decrypted = CryptUtil.decrypt(builder.toString(), password)
+
+					Log.d("KeysLocalFileDataSource", decrypted.toString())
+					return Gson().fromJson(decrypted, DataEntity::class.java).toData()
 				}
-			} catch (e: FileNotFoundException) {
-				Log.e("KeysLocalFileDataSource", "read:", e)
-			} catch (e: IOException) {
-				Log.e("KeysLocalFileDataSource", "read:", e)
-			} catch (e: SecurityException) {
-				Log.e("KeysLocalFileDataSource", "read:", e)
 			}
+		} catch (e: FileNotFoundException) {
+			Log.e("KeysLocalFileDataSource", "read:", e)
+		} catch (e: IOException) {
+			Log.e("KeysLocalFileDataSource", "read:", e)
+		} catch (e: SecurityException) {
+			Log.e("KeysLocalFileDataSource", "read:", e)
+		} catch (e: Exception) {
+			Log.e("KeysLocalFileDataSource", "read:", e)
 		}
 
 		return null
